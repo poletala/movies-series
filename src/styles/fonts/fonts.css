@@ -1,0 +1,63 @@
+@font-face {
+    font-family: "Nunito";
+    src: url(../fonts/Nunito/Nunito-Light.ttf);
+    font-weight: 300;
+    font-style: normal;
+    font-display:block;
+}
+@font-face {
+    font-family: "Nunito";
+    src: url(../fonts/Nunito/Nunito-Regular.ttf);
+    font-weight: 400;
+    font-style: normal;
+    font-display:block;
+}
+@font-face {
+    font-family: "Nunito";
+    src: url(../fonts/Nunito/Nunito-SemiBold.ttf);
+    font-weight: 400;
+    font-style: normal;
+    font-display:block;
+}
+@font-face {
+    font-family: "Nunito";
+    src: url(../fonts/Nunito/Nunito-Bold.ttf);
+    font-weight: 700;
+    font-style: normal;
+    font-display:block;
+}
+@font-face {
+    font-family: "Nunito";
+    src: url(../fonts/Nunito/Nunito-Black.ttf);
+    font-weight: 900;
+    font-style: normal;
+    font-display:block;
+}
+@font-face {
+    font-family: "Ubuntu";
+    src: url(../fonts/Ubuntu/Ubuntu-Light.ttf);
+    font-weight: 300;
+    font-style: normal;
+    font-display:block;
+}
+@font-face {
+    font-family: "Ubuntu";
+    src: url(../fonts/Ubuntu/Ubuntu-Regular.ttf);
+    font-weight: 400;
+    font-style: normal;
+    font-display:block;
+}
+@font-face {
+    font-family: "Ubuntu";
+    src: url(../fonts/Ubuntu/Ubuntu-Medium.ttf);
+    font-weight: 500;
+    font-style: normal;
+    font-display:block;
+}
+@font-face {
+    font-family: "Ubuntu";
+    src: url(../fonts/Ubuntu/Ubuntu-Bold.ttf);
+    font-weight: 700;
+    font-style: normal;
+    font-display:block;
+}
