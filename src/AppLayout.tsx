@@ -15,7 +15,7 @@ export const AppLayout = () => {
     }
 
     const location = useLocation()
-    const isHomePage = location.pathname === '/home'
+    const isHomePage = location.pathname === '/'
     const isSignupPage = location.pathname === '/signup'
     const isSearchPage = location.pathname === '/search'
     const isMoviesPage = location.pathname === '/movies'

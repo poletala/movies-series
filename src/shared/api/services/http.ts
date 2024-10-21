@@ -10,7 +10,7 @@ const http = axios.create({
 })
 
 //общаемся джсонами
-http.defaults.headers.common['Content-Type'] = 'application/json'
+// http.defaults.headers.common['Content-Type'] = 'application/json'
 
 
 export default http

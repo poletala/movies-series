@@ -1,6 +1,13 @@
-.movies-list-top {
+.movies-list-top,
+.series-list-top {
     margin: 2% 0;
     display: flex;
     justify-content: space-around;
-
+}
+.header-main-list {
+    margin: 2%;
+}
+.header-main-list span {
+    opacity: 0.5;
+    font-size: 12px;
 }

@@ -1,12 +1,14 @@
 import './movie-card-short.css'
+import { ShortImage, Rating } from '@openmoviedb/kinopoiskdev_client';
 
 type Props = {
     id: number,
-    SRC: string,
-    name?: string,
-    shortDescription: string,
-    rating: number,
-    year: number,
+    SRC: ShortImage | undefined,
+    name: string | undefined,
+    shortDescription: string | undefined,
+    // rating: Rating['imdb'] | undefined,
+    rating: Rating | undefined,
+    year: number | undefined,
 }
 
 export const MovieCardShort = (props: Props) => {
@@ -14,8 +16,8 @@ export const MovieCardShort = (props: Props) => {
 
     return (
         <div className="movie-card-short" key={props.id}>
-            <div  className="movie-card-short-poster" style={{backgroundImage: `url(${props.SRC})`}}>
-                <div className="movie-card-short-rating">{props.rating.toFixed(1)}</div>
+            <div  className="movie-card-short-poster" style={{backgroundImage: `url(${props.SRC?.url})`}}>
+                <div className="movie-card-short-rating">{props.rating?.imdb}</div>
                 <div className="movie-card-short-year">{props.year}</div>
             </div>
             <h2 className="movie-card-short-name">{props.name}</h2>

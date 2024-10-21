@@ -13,7 +13,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}> 
           <App />
         </QueryClientProvider>
       </BrowserRouter>
