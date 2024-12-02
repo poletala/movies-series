@@ -18,7 +18,6 @@
 .logo:hover {
     filter: drop-shadow(0 2px 9px var(--accent-color));
 }
-
 .element-nav {
     font-size: 25px;
     text-decoration: none;
@@ -32,13 +31,14 @@
     justify-content: space-around;
     align-items: center;
     width: 80%;
+    flex-wrap: wrap;
 }
 .header-menu-search-login {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.search {
+.search { 
     position: relative;
 }
 .search input {
@@ -53,6 +53,7 @@
 .search input::placeholder {
     color: white;
     font-size: 18px;
+    opacity: 0.5;
 }
 .search-icon {
     background-image: url('./assets/search-icon.svg');
@@ -61,7 +62,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     position: absolute;
-    right: 8px;
+    right: -28px;
     bottom: 13px;
     opacity: 0.5;
     cursor: pointer;
@@ -69,10 +70,21 @@
 .search-icon:hover {
     opacity: 1;
 }
+.my-list-nav {
+    width: 24px;
+    height: 24px;
+    background-image: url('./assets/user-list-icon.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 .header-menu-login {
     display: flex;
     align-items: center;
     gap: 1rem
+}
+.login-title {
+    opacity: 0.5;
+    font-size: 14px;
 }
 .logout-btn {
     background-image: url('./assets/logout-icon.svg');
@@ -100,20 +112,28 @@
         height: 15px;
     }
     .search-icon {
-        right: 15px;
+        right: -16px;
         bottom: 6px;
     }
     .search input::placeholder {
         font-size: 12px;
     }
-    
 }
-@media (max-width: 425px) {
+@media (max-width: 426px) {
     .logo {
         width: 3rem;
         height: 3rem;
     }
     .element-nav {
         font-size: 14px;
+    }
+    .search {
+        margin-left: 108px;
+        position: relative;
+        margin-top: 1px;
+    }
+    .load-btn {
+        width: 40px;
+        height: 40px;
     }
 }

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type SetUserPayload = {
     id: number
@@ -32,5 +32,5 @@ const slice = createSlice({
     }
 })
 
-export const userActions  = slice.actions
+export const userActions = slice.actions
 export const userReducer = slice.reducer

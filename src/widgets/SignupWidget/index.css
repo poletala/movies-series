@@ -18,6 +18,7 @@
 label {
     float:left;
     padding-right: 10px;
+    font-size: 14px;
 }
 .field-login input {
     border-radius: 8px;

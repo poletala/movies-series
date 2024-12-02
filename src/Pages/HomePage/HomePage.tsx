@@ -1,138 +1,173 @@
-// import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { MovieDtoV13 } from '@openmoviedb/kinopoiskdev_client'
+import Slider from 'react-slick'
+import { MovieCardShort } from '../../widgets/movieCards/MovieCardShort'
+import { useFetchMore, kp } from '../../shared/hooks/useFetchMore'
+import { queryForTopMovies, queryForTopSeries } from '../../shared/constants/queries'
+import { Loader } from '../../components/Loader'
+import { MovieCardRandom } from '../../widgets/movieCards/MovieCardRandom'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 import './home-page.css'
-import {
-    KinopoiskDev,
-    // MovieQueryBuilder,
-    // MeiliMovieEntity,
-    Filter,
-    MovieFields,
-    MovieDtoV13,
-    // SeasonQueryBuilder,
-    // SeasonFields,
-    // KeywordFields,
-    // SPECIAL_VALUE,
-    // SORT_TYPE,
-  } from '@openmoviedb/kinopoiskdev_client';
-import { useEffect, useState } from 'react';
-import { MovieCardShort } from '../../widgets/movieCards/MovieCardShort';
-// import { http } from '../../shared/api/services';
-// import  axios  from 'axios'
-
-
-// const kp = new KinopoiskDev('V6DZV6J-B3XM7PZ-QWQ6F3S-YJ3DWWZ');
-const kp = new KinopoiskDev('VD325FM-SDSMGH5-QBE4PD1-2JNX3Y3');
-
 
 export const HomePage = () => {
-    const [moviesList, setMoviesList] = useState<MovieDtoV13[]>([])
-    const [isLoadingMovies, setIsLoadingMovies] = useState<boolean>(false)
-    const [errorMoviesList, setErrorMoviesList] = useState<boolean>(false)
+    const [randomMovie, setRandomMovie] = useState<MovieDtoV13>()
+    const [isLoadingRandomMovie, setIsLoadingRandomMovie] = useState<boolean>(false)
+    const [isRandomMovieError, setIsRandomMovieError] = useState<boolean>(true)
 
-    const [seriesList, setSeriesList] = useState<MovieDtoV13[]>([])
-    const [isLoadingSeries, setIsLoadingSeries] = useState<boolean>(false)
-    const [errorSeriesList, setErrorSeriesList] = useState<boolean>(false)
+    const {
+        data: moviesList,
+        // error: errorMoviesList,
+        isError: isErrorMoviesList,
+        isLoading: isLoadingMovies,
+        // fetchMore: fetchMoreMovies,
+        // limitFetch: limitFetchMovies
+        } = useFetchMore({ query: queryForTopMovies, limitForQuery: 100 });
 
-    
+        const { 
+            data: seriesList,
+            // error: errorSeriesList,
+            // isError: isErrorSeriesList,
+            // isLoading: isLoadingSeries,
+            // fetchMore: fetchMoreSeries,
+            // limitFetch: limitFetchSeries
+            } = useFetchMore({ query: queryForTopSeries, limitForQuery: 100 });
+
+    const getRandomMovie = async () => {
+        setIsLoadingRandomMovie(true)
+        const { data: randomMovie, error: randomMovieError } = await kp.movie.getRandom();
+        if (randomMovie) {
+            setIsLoadingRandomMovie(false)
+            setRandomMovie(randomMovie)
+            setIsRandomMovieError(false)
+            console.log('RANDOM MOVIE ', randomMovie);
+        }
+        if (randomMovieError) {
+            setIsLoadingRandomMovie(false)
+            setIsRandomMovieError(true)
+            console.log('RANDOM MOVIE ERROR ', randomMovieError);
+        }
+    }
 
     useEffect(() => {
-        const getRelatedWithoutQueryBuilderMovies = async () => {
-            const query: Filter<MovieFields> = {
-                selectFields: ['id', 'name', 'rating', 'poster', 'year', 'top250', 'shortDescription'],
-                year: '1950-2023',
-                'rating.kp': '8-10',
-                'poster.url': '!null',
-                'name' : '!null',
-                'top250' : '!null',
-                'shortDescription' : '!null',
-                'isSeries' : 'true',
-                sortField: 'rating.imdb',
-                sortType: '-1',
-                page: 1,
-                limit: 5,
-            };
-      
-            // Отправляем запрос на получение фильмов
-            const { data, error, message } = await kp.movie.getByFilters(query);
-
-            error ? setErrorSeriesList(true) : setErrorSeriesList(false)
-            if(data) {
-                setSeriesList(data.docs), 
-                setIsLoadingSeries(false)
-            }
-        }
-    getRelatedWithoutQueryBuilderMovies()
-    // searchSeries()
+        getRandomMovie()
     },[])
 
-
-    useEffect(() => {
-        const searhcMovies = async () => {
-
-            const query: Filter<MovieFields> = {
-                selectFields: ['id', 'name', 'rating', 'poster', 'year', 'top250', 'shortDescription'],
-                year: '1950-2023',
-                'rating.kp': '8-10',
-                'poster.url': '!null',
-                'name' : '!null',
-                'top250' : '!null',
-                'shortDescription' : '!null',
-                'isSeries' : 'false',
-                'type' : 'movie',
-                sortField: 'rating.imdb',
-                sortType: '-1',
-                page: 1,
-                limit: 5,
-            };
-
-            const { data, error, message } = await kp.movie.getByFilters(query);
-       
-            error ? setErrorMoviesList(true) : setErrorMoviesList(false)
-            if(data) {
-                setMoviesList(data.docs), 
-                setIsLoadingMovies(false)
+    function NextArrow(props: any) {
+        const { onClick } = props;
+        return (
+          <div
+            className='load-btn right-arrow movies-area'
+            onClick={onClick}
+            >&gt;</div>
+        )
+      }
+    function PrevArrow(props: any) {
+        const { onClick } = props;
+        return (
+          <div
+            className='load-btn arrow-left'
+            onClick={onClick}
+          >&#60;</div>
+        )
+      }
+    const settings = {
+        dots: false,
+        arrows: true,
+        speed: 500,
+        className: "center",
+        centerMode: true,
+        centerPadding: "20px",
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        infinite: true,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />,
+        responsive: [{
+            breakpoint: 1025, 
+            settings: {
+                slidesToShow: 3, 
+                slidesToScroll: 1, 
             }
-        }
+        }, {
+            breakpoint: 769,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+                centerPadding: "100px"
+            }
+        }, {
+            breakpoint: 426,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                centerPadding: "70px"
+            }
+        }]
+    }
 
-    searhcMovies()
-
-    },[])
-
-  
-  
-    console.log(moviesList, seriesList)
-        
     return (
         <>
-        <div>
-            <h2 className='header-main-list'>ТОП фильмов <span>IMDb</span> </h2>
-            <div className='movies-list-top'>
-                {moviesList?.map((movie) => (
-                    <MovieCardShort 
-                        id={movie.id} 
-                        SRC={movie.poster} 
-                        name={movie.name} 
-                        shortDescription={movie.shortDescription}
-                        rating={movie.rating}
-                        year={movie.year} />
-                ))}
-                {isLoadingMovies && <div>Идет загрузка...</div>}
-                {errorMoviesList && <div>{errorMoviesList}</div>}
-            </div>
-            <h2 className='header-main-list'>ТОП сериалов <span>IMDb</span></h2>
-            <div className='series-list-top'>
-            {seriesList?.map((series) => (
-                    <MovieCardShort 
-                        id={series.id} 
-                        SRC={series.poster} 
-                        name={series.name} 
+        <div style={{paddingBottom: '20px'}}>
+            {isErrorMoviesList && !isLoadingMovies && <div style={{textAlign: 'center', marginTop: '20px'}}>Ошибка получения данных.</div>}
+            {isLoadingMovies && <div className="loader-home-page"><Loader /></div>}
+            {moviesList.length > 0 && 
+            <div  className="testscroller-movies">
+                <h2 className="header-main-list">ТОП фильмов <span>IMDb</span></h2>
+                {/* <div className='movies-list-top'> */}
+                    {moviesList.length > 0 && <Slider {...settings}>
+                    {moviesList.map((movie) => (
+                        <MovieCardShort
+                            key={movie.id}
+                            id={movie.id}
+                            SRC={movie.poster}
+                            name={movie.name}
+                            shortDescription={movie.shortDescription}
+                            rating={movie.rating}
+                            year={movie.year} />
+                    ))}
+                    </Slider>}
+                    {/* {isLoadingMovies && <Loader/>}
+                    {isErrorMoviesList && <div>{errorMoviesList}</div>} */}
+                    {/* <button className='load-btn right-arrow movies-area' disabled={isLoadingMovies || limitFetchMovies >= 100} onClick={fetchMoreMovies}>&gt;</button> */}
+                {/* </div> */}
+            </div>}
+            {seriesList.length > 0 &&
+            <div className="testscroller">
+                <h2 className="header-main-list">ТОП сериалов <span>IMDb</span></h2>
+                {seriesList.length > 0 && <Slider {...settings}>
+                {seriesList.map((series) => (
+                    <MovieCardShort
+                        key={series.id}
+                        id={series.id}
+                        SRC={series.poster}
+                        name={series.name}
                         shortDescription={series.shortDescription}
                         rating={series.rating}
                         year={series.year} />
                 ))}
-                {isLoadingSeries && <div>Идет загрузка...</div>}
-                {errorSeriesList && <div>{errorSeriesList}</div>}
-
-            </div>
+                </Slider>}
+            </div>}
+            {!isRandomMovieError && 
+                <div className="random-movie">
+                    <h2 className="header-main-list">Случайный фильм</h2>
+                    <MovieCardRandom
+                        key={randomMovie?.id}
+                        id={randomMovie?.id}
+                        SRC={randomMovie?.poster}
+                        name={randomMovie?.name}
+                        shortDescription={randomMovie?.shortDescription}
+                        description={randomMovie?.description}
+                        rating={randomMovie?.rating}
+                        year={randomMovie?.year}
+                        genres={randomMovie?.genres}
+                        countries={randomMovie?.countries}
+                        ageRating={randomMovie?.ageRating}
+                        movieLength={randomMovie?.movieLength}
+                        enName={randomMovie?.enName}
+                        onClick={() => getRandomMovie()}
+                        isLoading={isLoadingRandomMovie}/>
+                </div>}
         </div>
         </>
     )
