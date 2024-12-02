@@ -5,11 +5,12 @@ import {
     MovieFields,
     MovieDtoV13
   } from '@openmoviedb/kinopoiskdev_client'
+import { API_KEYS } from './useFetchMore';
 
 // let kp = new KinopoiskDev('V6DZV6J-B3XM7PZ-QWQ6F3S-YJ3DWWZ');
 // let kp1 = new KinopoiskDev('VD325FM-SDSMGH5-QBE4PD1-2JNX3Y3');
 let kp = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG');
-let kp1 = new KinopoiskDev('JZPD3MG-0JNMFYS-QXATV04-6KV52MX');
+// let kp1 = new KinopoiskDev('JZPD3MG-0JNMFYS-QXATV04-6KV52MX');
 
 type FetchParams = {
   query: Filter<MovieFields>;
@@ -69,7 +70,9 @@ export const useFetchByFilters = ({query, limitForQuery, genre, country, isMovie
             console.log('FETCH ERROR BY FILTERS', error)
             setError(error)
             setShouldFetch(false)
-            kp = kp1
+            for (let i=0; i < API_KEYS.length; i++) {
+              kp = new KinopoiskDev(API_KEYS[i++]) 
+            }
             return
         }
         if(data?.docs.length === 0 && !error) {

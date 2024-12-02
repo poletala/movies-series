@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { MovieDtoV13 } from '@openmoviedb/kinopoiskdev_client'
+import { KinopoiskDev, MovieDtoV13 } from '@openmoviedb/kinopoiskdev_client'
 import Slider from 'react-slick'
 import { MovieCardShort } from '../../widgets/movieCards/MovieCardShort'
-import { useFetchMore, kp } from '../../shared/hooks/useFetchMore'
+import { useFetchMore, API_KEYS } from '../../shared/hooks/useFetchMore'
 import { queryForTopMovies, queryForTopSeries } from '../../shared/constants/queries'
 import { Loader } from '../../components/Loader'
 import { MovieCardRandom } from '../../widgets/movieCards/MovieCardRandom'
@@ -32,7 +32,8 @@ export const HomePage = () => {
             // fetchMore: fetchMoreSeries,
             // limitFetch: limitFetchSeries
             } = useFetchMore({ query: queryForTopSeries, limitForQuery: 100 });
-
+            
+    let kp = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG');
     const getRandomMovie = async () => {
         setIsLoadingRandomMovie(true)
         const { data: randomMovie, error: randomMovieError } = await kp.movie.getRandom();
@@ -45,6 +46,9 @@ export const HomePage = () => {
         if (randomMovieError) {
             setIsLoadingRandomMovie(false)
             setIsRandomMovieError(true)
+            for (let i=0; i < API_KEYS.length; i++) {
+                kp = new KinopoiskDev(API_KEYS[i++]) 
+              }
             console.log('RANDOM MOVIE ERROR ', randomMovieError);
         }
     }

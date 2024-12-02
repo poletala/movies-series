@@ -63,7 +63,7 @@ export const SearchPage = () => {
       <div className="search-results">
         {searchResult.length === 0 && !isError && !isLoading && <div>Попробуйте еще раз.</div>}
         {isError && !isLoading && <div>Ошибка получения данных</div>}
-        {!movieName && <div>Пусто.</div>}
+        {!movieName && !isError && <div>Пусто.</div>}
         {movieName && searchResult.length > 0 && searchResult.map((result: Results) => (
         <div className="movie-card-short" key={result.id} onClick={() => navigate.to(`/movies-series/:${result.id}`)}>
             <div  className="movie-card-short-poster" style={{backgroundImage: `url(${result.poster})`}}>
