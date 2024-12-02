@@ -4,6 +4,7 @@ import { MovieDtoV13, KinopoiskDev } from '@openmoviedb/kinopoiskdev_client'
 import { MovieCardFull } from '../../widgets/movieCards/MovieCardFull'
 import { Loader } from '../../components/Loader'
 import './about-movie-page.css'
+import { API_KEYS } from '../../shared/hooks/useFetchMore'
 
 type Params = {
     id: string | undefined;
@@ -17,7 +18,7 @@ export const AboutMoviePage = () => {
     const { id } = useParams<Params>();
     const findId = Number(id?.slice(1))
 
-    let kp1 = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG')
+    // let kp1 = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG')
     let kp = new KinopoiskDev('JZPD3MG-0JNMFYS-QXATV04-6KV52MX')
 
     useEffect(() => {
@@ -33,7 +34,9 @@ export const AboutMoviePage = () => {
                 console.log(error, message);
                 setIsError(true)
                 setIsLoading(false)
-                kp=kp1
+                for (let i=0; i < API_KEYS.length; i++) {
+                    kp = new KinopoiskDev(API_KEYS[i++]) 
+                  }
                 return
             }
         }
