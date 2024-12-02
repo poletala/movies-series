@@ -19,7 +19,7 @@ export const AboutMoviePage = () => {
     const findId = Number(id?.slice(1))
 
     // let kp1 = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG')
-    let kp = new KinopoiskDev('JZPD3MG-0JNMFYS-QXATV04-6KV52MX')
+    let kp = new KinopoiskDev(API_KEYS[0])
 
     useEffect(() => {
         const getMovieByID = async () => {
