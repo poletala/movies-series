@@ -6,9 +6,11 @@ import { useFetchMore, API_KEYS } from '../../shared/hooks/useFetchMore'
 import { queryForTopMovies, queryForTopSeries } from '../../shared/constants/queries'
 import { Loader } from '../../components/Loader'
 import { MovieCardRandom } from '../../widgets/movieCards/MovieCardRandom'
+import { ScrollToTop } from '../../components/ScrollToTop'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './home-page.css'
+
 
 export const HomePage = () => {
     const [randomMovie, setRandomMovie] = useState<MovieDtoV13>()
@@ -32,7 +34,7 @@ export const HomePage = () => {
             // fetchMore: fetchMoreSeries,
             // limitFetch: limitFetchSeries
             } = useFetchMore({ query: queryForTopSeries, limitForQuery: 100 });
-            
+
     let kp = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG');
     const getRandomMovie = async () => {
         setIsLoadingRandomMovie(true)
@@ -173,6 +175,7 @@ export const HomePage = () => {
                         isLoading={isLoadingRandomMovie}/>
                 </div>}
         </div>
+        <ScrollToTop />
         </>
     )
 }

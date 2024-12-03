@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { KinopoiskDev, MeiliMovieEntity, MovieQueryBuilder } from '@openmoviedb/kinopoiskdev_client'
 import { useCustomNavigation } from '../../shared/hooks/useCustomNavigation'
+import { ScrollToTop } from '../../components/ScrollToTop'
 import { Loader } from '../../components/Loader'
 import './search-page.css'
+
 
 type Results = {
   id: number,
@@ -79,7 +81,7 @@ export const SearchPage = () => {
         {movieName && searchResult.length > 0 && <div className="arrow-area">
         <button className="arrow-down" onClick={() => setLimitFetch((prev) => prev + 5)}>+</button>
       </div>}
-      {(movieName && searchResult.length > 9) && <button className="arrow-up" >&#9650;</button>}
+      <ScrollToTop />
       </>
     )
 }

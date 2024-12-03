@@ -3,8 +3,10 @@ import { useParams } from 'react-router-dom'
 import { MovieDtoV13, KinopoiskDev } from '@openmoviedb/kinopoiskdev_client'
 import { MovieCardFull } from '../../widgets/movieCards/MovieCardFull'
 import { Loader } from '../../components/Loader'
-import './about-movie-page.css'
 import { API_KEYS } from '../../shared/hooks/useFetchMore'
+import { ScrollToTop } from '../../components/ScrollToTop'
+import './about-movie-page.css'
+
 
 type Params = {
     id: string | undefined;
@@ -65,6 +67,7 @@ export const AboutMoviePage = () => {
             persons={movieInfo?.persons}
             similarMovies={movieInfo?.similarMovies}/>}
         {isError && <div className="nodata">Ошибка получения данных.</div>}
+        <ScrollToTop />
         </>
     )
 }

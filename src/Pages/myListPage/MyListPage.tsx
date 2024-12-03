@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useCustomNavigation } from '../../shared/hooks/useCustomNavigation'
+import { ScrollToTop } from '../../components/ScrollToTop'
 import '../../widgets/movieCards/movie-card-short.css'
 import './my-list-page.css'
+
 
 type movieInfo = {
     id: number,
@@ -54,6 +56,7 @@ export const MyListPage = () => {
             </div>
             ))}
         </div>
+        <ScrollToTop />
         </>
     )
 }

@@ -3,6 +3,7 @@ import { queryForTopSeries } from '../../shared/constants/queries'
 import { Loader } from '../../components/Loader'
 import { MovieCardShort } from '../../widgets/movieCards/MovieCardShort'
 import { Filters } from '../../widgets/filters/Filters'
+import { ScrollToTop } from '../../components/ScrollToTop'
 
 export const SeriesPage = () => {
 
@@ -39,8 +40,8 @@ export const SeriesPage = () => {
                     {seriesList.length > 0 &&
                     <button className="arrow-down" disabled={isLoadingSeries || limitFetchSeries >= 100} onClick={fetchMoreSeries}>+</button>}
                 </div>
-            <button className="arrow-up" disabled={isLoadingSeries}>&#9650;</button>
         </div>
+        <ScrollToTop />
         </>
     )
 }

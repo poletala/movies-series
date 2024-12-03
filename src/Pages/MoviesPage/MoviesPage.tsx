@@ -3,7 +3,9 @@ import { useFetchMore } from '../../shared/hooks/useFetchMore'
 import { queryForTopMovies } from '../../shared/constants/queries'
 import { Loader } from '../../components/Loader'
 import { Filters } from '../../widgets/filters/Filters'
+import { ScrollToTop } from '../../components/ScrollToTop'
 import './movies-page.css'
+
 
 export const MoviesPage = () => {
 
@@ -40,7 +42,7 @@ export const MoviesPage = () => {
                 {/* {isErrorMoviesList && <div className='error-loading-movies'>{errorMoviesList}</div>} */}
                 {moviesList.length > 0 && <button className="arrow-down" disabled={isLoadingMovies || limitFetchMovies >= 100} onClick={fetchMoreMovies}>+</button>}   
             </div>
-            {moviesList.length > 0 && <button className="arrow-up">&#9650;</button>}
+            <ScrollToTop />
         </div>
     )
 }

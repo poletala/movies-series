@@ -81,7 +81,7 @@
     opacity: 0.5;
 }
 .movie-card-full-btn-in-my-list {
-    display: none;
+    /* display: none; */
 }
 .movie-card-full-btn-more:hover,
 .movie-card-full-btn-my-list:hover {
@@ -141,7 +141,7 @@
     font-size: 26px;
 } 
 .more-details-abt-movie {
-    display: none;
+    /* display: none; */
     padding-bottom: 20px;
 }
 .full-actors,

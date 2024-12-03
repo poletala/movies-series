@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ImageAndDescriptionCard } from '../../components/ImageAndDescriptionCard'
 import { MovieCardShort } from './MovieCardShort'
 import './movie-card-full.css'
+import { useState } from 'react'
 
 type Props = {
     id?: number;
@@ -23,6 +24,8 @@ type Props = {
 }
 
 export const MovieCardFull = (props: Props) => {
+    const [isVisible, setIsVisible] = useState<boolean>(false)
+    const [isVisibleInMyList, setIsVisibleInMyList] = useState<boolean>(false)
 
     function getTimeFromMins(mins: number) {
         let hours = Math.trunc(mins/60);
@@ -30,7 +33,7 @@ export const MovieCardFull = (props: Props) => {
         return hours + 'ч. ' + minutes + 'м.';
     }
 
-    const moreBlockInfo = document.querySelector('.more-details-abt-movie') as HTMLElement
+    // const moreBlockInfo = document.querySelector('.more-details-abt-movie') as HTMLElement
     const addToMyListBTN = document.querySelector('.movie-card-full-btn-my-list') as HTMLElement
     const toMyListBTN = document.querySelector('.movie-card-full-btn-in-my-list') as HTMLElement
     let savedMoviesInLS = JSON.parse(localStorage.getItem('myList') || '[]')
@@ -54,7 +57,9 @@ export const MovieCardFull = (props: Props) => {
     }
     console.log('Movie Info ', movieInfo)
 
+    
    function addToMyList() {
+    setIsVisibleInMyList(true)
     console.log('Saved movies', savedMoviesInLS)
     if (savedMoviesInLS.length > 0) {
         for(let i = 0; i < savedMoviesInLS.length; i++) {
@@ -73,6 +78,7 @@ export const MovieCardFull = (props: Props) => {
     addToMyListBTN ? addToMyListBTN.style.display = 'none' : console.log('no add-to-my-list btn')
     toMyListBTN ? toMyListBTN.style.display = 'block' : console.log('no to-my-list btn')
    }
+
 
     return (
         <>
@@ -95,13 +101,13 @@ export const MovieCardFull = (props: Props) => {
                     <p>{props.description}</p>
                    </div>
                    <div className="movie-card-full-btns">
-                    {props.persons && <button className="movie-card-full-btn-more" onClick={() => moreBlockInfo.style.display = 'block'}>Подробнее</button>}
-                    <button className="movie-card-full-btn-my-list" onClick={addToMyList}>Буду смотреть</button>
-                    <Link to="/movies-series/mylist" className="movie-card-full-btn-in-my-list">В моём списке</Link>
+                    {props.persons && <button className="movie-card-full-btn-more" onClick={() => setIsVisible(true)}>Подробнее</button>}
+                    {!isVisibleInMyList && <button className="movie-card-full-btn-my-list" onClick={addToMyList}>Буду смотреть</button>}
+                    {isVisibleInMyList && <Link to="/movies-series/mylist" className="movie-card-full-btn-in-my-list">В моём списке</Link>}
                    </div>
                 </div>
             </div>
-            <div className="more-details-abt-movie">
+            {isVisible && <div className="more-details-abt-movie">
                 <div className="full-workers">
                     {props.persons && <h3>Над фильмом работали</h3>}
                     <div className="full-workers-container">
@@ -141,7 +147,7 @@ export const MovieCardFull = (props: Props) => {
                         })}
                     </div>
                 </div>
-            </div>
+            </div>}
         </>
     )
 }
