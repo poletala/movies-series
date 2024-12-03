@@ -1,9 +1,10 @@
 import { Rating, ItemName, ShortImage, PersonInMovie, LinkedMovie  } from '@openmoviedb/kinopoiskdev_client'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import { ImageAndDescriptionCard } from '../../components/ImageAndDescriptionCard'
 import { MovieCardShort } from './MovieCardShort'
 import './movie-card-full.css'
-import { useState } from 'react'
+
 
 type Props = {
     id?: number;
