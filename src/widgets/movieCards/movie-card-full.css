@@ -200,6 +200,19 @@
     top: 52px;
     right: 131px;
 }
+.movie-card-full-description {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.movie-card-full-description p:nth-child(2),
+.movie-card-full-description p:nth-child(3) {
+    font-size: smaller;
+    opacity: 0.5;
+    text-align: end;
+    margin-right: 3rem;
+}
+
 @media (max-width: 1026px) {
     .movie-card-full {
         background-size: contain;

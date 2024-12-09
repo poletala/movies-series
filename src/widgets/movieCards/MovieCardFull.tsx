@@ -109,7 +109,7 @@ export const MovieCardFull = (props: Props) => {
                    </div>
                    <div className="movie-card-full-description">
                     <p>{props.description}</p>
-                    <p>{props.isSeries && props.seasonsInfo ? `${props.seasonsInfo.length} сезонов` : ''}</p>
+                    <p>{props.isSeries && props.seasonsInfo ? `Cезонов: ${props.seasonsInfo.length} ` : ''}</p>
                     <p>{props.status && props.status === 'completed' ? 'Заверешен' : 'Не завершен'}</p>
                    </div>
                    <div className="movie-card-full-btns">

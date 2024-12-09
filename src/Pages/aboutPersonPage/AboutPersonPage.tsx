@@ -14,13 +14,14 @@ export const AboutPersonPage = () => {
     const [personInfo, setPersonInfo] = useState<Person>()
     const [isError, setIsError] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    console.log(id)
 
     let kp = new KinopoiskDev(API_KEYS[0])
 
     useEffect(() => {
         const getPersonById = async () => {
 
-            const { data, error, message } = await kp.person.getById(Number(id));
+            const { data, error, message } = await kp.person.getById(Number(id?.slice(7)));
     
             if(data) {
                 setPersonInfo(data)
