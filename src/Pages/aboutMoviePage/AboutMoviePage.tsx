@@ -8,6 +8,8 @@ import { ScrollToTop } from '../../components/ScrollToTop'
 import './about-movie-page.css'
 
 
+
+
 type Params = {
     id: string | undefined;
 }
@@ -17,7 +19,8 @@ export const AboutMoviePage = () => {
     const [movieInfo, setMovieInfo] = useState<MovieDtoV13>()
     const [isError, setIsError] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const { id } = useParams<Params>();
+    const { id } = useParams<Params>()
+
     const findId = Number(id?.slice(1))
 
     // let kp1 = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG')
@@ -43,7 +46,7 @@ export const AboutMoviePage = () => {
             }
         }
         id ? getMovieByID() : console.log('Movie not found')
-    },[])
+    },[findId])
 
     console.log('MOVIE BY ID:', findId, 'INFO ABOUT MOVIE BY ID ', movieInfo)
 
@@ -65,7 +68,11 @@ export const AboutMoviePage = () => {
             SRC={movieInfo?.poster}
             backdrop={movieInfo?.backdrop}
             persons={movieInfo?.persons}
-            similarMovies={movieInfo?.similarMovies}/>}
+            similarMovies={movieInfo?.similarMovies}
+            seasonsInfo={movieInfo?.seasonsInfo}
+            status={movieInfo?.status}
+            isSeries={movieInfo?.isSeries}
+        />}
         {isError && <div className="nodata">Ошибка получения данных.</div>}
         <ScrollToTop />
         </>

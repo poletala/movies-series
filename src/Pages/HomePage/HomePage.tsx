@@ -19,20 +19,12 @@ export const HomePage = () => {
 
     const {
         data: moviesList,
-        // error: errorMoviesList,
         isError: isErrorMoviesList,
         isLoading: isLoadingMovies,
-        // fetchMore: fetchMoreMovies,
-        // limitFetch: limitFetchMovies
         } = useFetchMore({ query: queryForTopMovies, limitForQuery: 100 });
 
         const { 
-            data: seriesList,
-            // error: errorSeriesList,
-            // isError: isErrorSeriesList,
-            // isLoading: isLoadingSeries,
-            // fetchMore: fetchMoreSeries,
-            // limitFetch: limitFetchSeries
+            data: seriesList
             } = useFetchMore({ query: queryForTopSeries, limitForQuery: 100 });
 
     let kp = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG');
@@ -115,12 +107,11 @@ export const HomePage = () => {
     return (
         <>
         <div style={{paddingBottom: '20px'}}>
-            {isErrorMoviesList && !isLoadingMovies && <div style={{textAlign: 'center', marginTop: '20px'}}>Ошибка получения данных.</div>}
+            {isErrorMoviesList && !isLoadingMovies && <div className="error-home">Ошибка получения данных.</div>}
             {isLoadingMovies && <div className="loader-home-page"><Loader /></div>}
             {moviesList.length > 0 && 
             <div  className="testscroller-movies">
                 <h2 className="header-main-list">ТОП фильмов <span>IMDb</span></h2>
-                {/* <div className='movies-list-top'> */}
                     {moviesList.length > 0 && <Slider {...settings}>
                     {moviesList.map((movie) => (
                         <MovieCardShort
@@ -133,10 +124,6 @@ export const HomePage = () => {
                             year={movie.year} />
                     ))}
                     </Slider>}
-                    {/* {isLoadingMovies && <Loader/>}
-                    {isErrorMoviesList && <div>{errorMoviesList}</div>} */}
-                    {/* <button className='load-btn right-arrow movies-area' disabled={isLoadingMovies || limitFetchMovies >= 100} onClick={fetchMoreMovies}>&gt;</button> */}
-                {/* </div> */}
             </div>}
             {seriesList.length > 0 &&
             <div className="testscroller">
@@ -171,7 +158,7 @@ export const HomePage = () => {
                         ageRating={randomMovie?.ageRating}
                         movieLength={randomMovie?.movieLength}
                         enName={randomMovie?.enName}
-                        onClick={() => getRandomMovie()}
+                        onClick={getRandomMovie}
                         isLoading={isLoadingRandomMovie}/>
                 </div>}
         </div>

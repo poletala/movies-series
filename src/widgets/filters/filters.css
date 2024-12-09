@@ -113,7 +113,8 @@
     gap: 7px;
     flex-wrap: wrap;
     font-size: 11px;
-    height: 137px;
+    height:80px;
+    margin-left: 30px;
   }
   .label {
     padding-right: 3px;

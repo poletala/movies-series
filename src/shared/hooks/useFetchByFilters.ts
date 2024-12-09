@@ -75,7 +75,7 @@ export const useFetchByFilters = ({query, limitForQuery, genre, country, isMovie
             }
             return
         }
-        if(data?.docs.length === 0 && !error) {
+        if(!data?.docs.length && !error) {
             setIsNoData(true)
             setIsLoading(false)
             setShouldFetch(false)

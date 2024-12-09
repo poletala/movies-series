@@ -31,7 +31,8 @@ export const SeriesPage = () => {
                             name={series.name}
                             shortDescription={series.shortDescription}
                             rating={series.rating}
-                            year={series.year}/>
+                            year={series.year}
+                        />
                     ))}
                 </div>
                 <div className="arrow-area">

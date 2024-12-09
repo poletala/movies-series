@@ -1,14 +1,15 @@
-import { ShortImage, Rating} from '@openmoviedb/kinopoiskdev_client'
+import { ShortImage, Rating } from '@openmoviedb/kinopoiskdev_client'
 import { useCustomNavigation } from '../../shared/hooks/useCustomNavigation'
 import './movie-card-short.css'
 
 type Props = {
     id?: number,
-    SRC: ShortImage | undefined,
-    name: string | undefined,
-    shortDescription?: string | undefined,
-    rating?: Rating | undefined,
-    year?: number | undefined,
+    SRC?: ShortImage,
+    name?: string,
+    shortDescription?: string,
+    rating?: Rating,
+    year?: number,
+    onClick?: () => void
 }
 
 export const MovieCardShort = (props: Props) => {

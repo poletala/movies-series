@@ -96,6 +96,10 @@
     width: 100px;
     height: 100px;
 }
+.error-home {
+    text-align: 'center';
+    margin-top: '20px'
+}
 @media (max-width: 426px) {
     .load-btn {
         width: 40px;
@@ -137,6 +141,14 @@
         right: 44px;
         width: 54px;
         height: 54px;
+    }
+    .random-poster {
+        width: 243px;
+        height: 367px;
+        position: absolute;
+    }
+    .movie-card-full-info {
+        width: 82%;
     }
 }
 @media (max-width: 376px) {

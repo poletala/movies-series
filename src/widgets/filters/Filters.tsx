@@ -3,7 +3,6 @@ import Select from 'react-select'
 import { useFetchByFilters } from '../../shared/hooks/useFetchByFilters'
 import { kp } from '../../shared/hooks/useFetchMore'
 import { queryForFilters } from '../../shared/constants/queries'
-import { arrayOfYears } from '../../shared/constants/constants'
 import { MovieCardShort } from '../movieCards/MovieCardShort'
 import { Loader } from '../../components/Loader'
 import './filters.css'
@@ -28,15 +27,13 @@ type Years = {
 const customStyles = {
     menu: (provided: any) => ({
         ...provided,
-        // minWidth: '500px',
-        // maxHeight: '200px',
         overflowY: 'auto',
     }),
     control: (provided: any) => ({
       ...provided,
       backgroundColor: 'lightgray',
       padding: window.innerWidth <= 1025 ? '0px 2px' : '0px 10px',
-      border: '1px solid black',
+      border: '1px solid white',
       borderRadius: '14px',
       minHeight: window.innerWidth <= 1025 ? '30px' :'38px',
       maxHeight: window.innerWidth <= 1025 ? '32px' :'38px',
@@ -56,7 +53,7 @@ const customStylesForYear = {
       ...provided,
       backgroundColor: 'lightgray',
       padding: window.innerWidth <= 1025 ? '0px 1px' : '0px 5px',
-      border: '1px solid black',
+      border: '1px solid white',
       borderRadius: '14px',
       minHeight: window.innerWidth <= 1025 ? '30px' :'38px',
       maxHeight: window.innerWidth <= 1025 ? '32px' :'38px',
@@ -75,7 +72,7 @@ const customStylesForSort = {
       ...provided,
       backgroundColor: 'lightgray',
       padding: window.innerWidth <= 1025 ? '0px 1px' : '0px 5px',
-      border: '1px solid black',
+      border: '1px solid white',
       borderRadius: '14px',
       minHeight: window.innerWidth <= 1025 ? '30px' :'38px',
       maxHeight: window.innerWidth <= 1025 ? '32px' :'38px',
@@ -101,9 +98,13 @@ export const Filters  = (props: Props) => {
     const [sortByOption, setSortByOption] = useState<string>()
     const [isVisible, setIsVisible] = useState<boolean>(false)
 
-    
-
-    const years: Years[] = arrayOfYears.map((year) => ({
+    const startYear = 1924;
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    for (let year = startYear; year <= currentYear; year++) {
+        years.push(year);
+    }
+    const yearsForFilters: Years[] = years.map((year) => ({
         value: year,
         label: year,
     }))
@@ -126,8 +127,6 @@ export const Filters  = (props: Props) => {
                                             yearFrom: yearsFrom, 
                                             yearTo: yearsTo,
                                             sortBy: sortByOption})
-
-    
 
     const getGenresAndCountries = async () => {
         const { data: genresList, 
@@ -158,7 +157,7 @@ export const Filters  = (props: Props) => {
         if (errorGenresList) console.log(errorGenresList, messageGenresList)
         if (errorCountriesList) console.log(errorCountriesList, messageCountriesList)
     }
-
+    
     const handleResize = () => {
         if (window.innerWidth < 769) {
           setIsVisible(false);
@@ -224,13 +223,13 @@ export const Filters  = (props: Props) => {
                     onChange={(e) => setSelectedCountry(e?.label)}/>
                 <label htmlFor="dropdown-years-from">   Интервал c </label>
                 <Select id="dropdown-years-from" 
-                    options={years}
+                    options={yearsForFilters}
                     styles={customStylesForYear}
                     placeholder='-'
                     onChange={(e) => setYearsFrom(e?.value)} />
                 <label htmlFor="dropdown-years-to">   по</label>
                 <Select id="dropdown-years-to" 
-                    options={years}
+                    options={yearsForFilters}
                     styles={customStylesForYear}
                     placeholder='-'
                     onChange={(e) => setYearsTo(e?.value)} />

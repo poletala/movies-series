@@ -5,3 +5,4 @@ export * from './myListPage';
 export * from './searchPage';
 export * from './seriesPage';
 export * from './signupPage';
+export * from './aboutPersonPage';

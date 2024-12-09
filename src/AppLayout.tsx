@@ -17,13 +17,19 @@ export const AppLayout = () => {
     const onLogot = () => {
         dispatch(userActions.clearUser())
     }
-
+    const routes = {
+        home: '/movies-series',
+        signup: '/movies-series/signup',
+        search: '/movies-series/search',
+        movies: '/movies-series/movies',
+        series: '/movies-series/series',
+    };
     const location = useLocation()
-    const isHomePage = location.pathname === '/movies-series'
-    const isSignupPage = location.pathname === '/movies-series/signup'
-    const isSearchPage = location.pathname === '/movies-series/search'
-    const isMoviesPage = location.pathname === '/movies-series/movies'
-    const isSeriesPage = location.pathname === '/movies-series/series'
+    const isHomePage = location.pathname === routes.home
+    const isSignupPage = location.pathname === routes.signup
+    const isSearchPage = location.pathname === routes.search
+    const isMoviesPage = location.pathname === routes.movies
+    const isSeriesPage = location.pathname === routes.series
 
     const applyActiveStyle = (condition: boolean) => {
         return {
@@ -38,12 +44,15 @@ export const AppLayout = () => {
           root.style.setProperty('--background-color', '#d5b9b2');
           root.style.setProperty('--background-accent-color', '#a26769');
           root.style.setProperty('--accent-color', '#6d2e46');
-        //   root.style.setProperty('--text-color', '#0d1b2a');
+          root.style.setProperty('--grey-text-color', '#6d2e46');
+          (document.querySelector('.toggle-theme')! as HTMLElement).style.backgroundImage = "url('/movies-series/src/assets/dark-theme-icon.svg')"
         } else {
             root.style.setProperty('--background-color', '#16181E');
             root.style.setProperty('--background-accent-color', '#21242D');
             root.style.setProperty('--accent-color', '#00B9AE');
             root.style.setProperty('--text-color', '#fff');
+            root.style.setProperty('--grey-text-color', '#666a76');
+            (document.querySelector('.toggle-theme')! as HTMLElement).style.backgroundImage = "url('/movies-series/src/assets/light-theme-icon.svg')"
         }
     };
     const searchMovieLS: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -59,27 +68,36 @@ export const AppLayout = () => {
         } else {
           setIsVisible(false);
         }
-      };
+    };
     
-      useEffect(() => {
+    useEffect(() => {
         handleResize(); 
         window.addEventListener('resize', handleResize); 
     
         return () => {
           window.removeEventListener('resize', handleResize); 
         };
-      }, []);
+    }, []);
+
+    const openMenu = () => {
+        setIsOpen(true);
+        setTimeout(() => {
+            setIsOpen(false);
+        }, 2000)
+    }
+
     return (
         <>
             <header className="header-menu">
                 <div className="header-menu-elements">
-                    <div className="logo-container">
+                    {!isVisible && <div className="logo-container">
                     <Link to="/movies-series/" style={applyActiveStyle(isHomePage)} className="logo"></Link>
-                    </div>
+                    </div>}
                     {!isVisible && <Link to="/movies-series/movies" style={applyActiveStyle(isMoviesPage)} className="element-nav">Фильмы</Link>}
                     {!isVisible && <Link to="/movies-series/series" style={applyActiveStyle(isSeriesPage)} className="element-nav">Сериалы</Link>}
-                    {isVisible && <button className="dropdown-menu" onClick={() => setIsOpen(prev => !prev)}></button>}
+                    {isVisible && <button className="dropdown-menu" onClick={openMenu}></button>}
                     {isOpen && <div className="dropdown-menu-open">
+                        <Link to="/movies-series/" className="element-nav">Главная</Link>
                         <Link to="/movies-series/movies" className="element-nav">Фильмы</Link>
                         <Link to="/movies-series/series" className="element-nav">Сериалы</Link>
                     </div>}

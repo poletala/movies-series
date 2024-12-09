@@ -8,8 +8,10 @@ import { MoviesPage } from './pages'
 import { SeriesPage } from './pages'
 import { AboutMoviePage } from './pages'
 import { MyListPage } from './pages'
+import { AboutPersonPage } from './pages'
 import './App.css'
 import './styles/fonts/fonts.css'
+
 
 function App() {
 
@@ -22,6 +24,7 @@ function App() {
           <Route path="/movies-series/signup" element={<SignupPage />} />
           <Route path="/movies-series/movies" element={<MoviesPage />} />
           <Route path="/movies-series/:id" element={<AboutMoviePage />} />
+          <Route path="/movies-series/id" element={<AboutPersonPage />} />
           <Route path="/movies-series/series" element={<SeriesPage />} />
           <Route path="/movies-series/mylist" element={<MyListPage />} />
           <Route path="*" element={<HomePage />} />

@@ -1,6 +1,6 @@
-import { Rating, ItemName, ShortImage, PersonInMovie, LinkedMovie  } from '@openmoviedb/kinopoiskdev_client'
+import { Rating, ItemName, ShortImage, PersonInMovie, LinkedMovie, SeasonInfo } from '@openmoviedb/kinopoiskdev_client'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { ImageAndDescriptionCard } from '../../components/ImageAndDescriptionCard'
 import { MovieCardShort } from './MovieCardShort'
 import './movie-card-full.css'
@@ -22,21 +22,31 @@ type Props = {
     backdrop?: ShortImage;
     persons?: Array<PersonInMovie>;
     similarMovies?: Array<LinkedMovie>;
+    seasonsInfo?:SeasonInfo[];
+    status?: string;
+    isSeries?: boolean;
 }
 
 export const MovieCardFull = (props: Props) => {
+    const detailsRef = useRef<null | HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState<boolean>(false)
     const [isVisibleInMyList, setIsVisibleInMyList] = useState<boolean>(false)
-
+ 
     function getTimeFromMins(mins: number) {
         let hours = Math.trunc(mins/60);
         let minutes = mins % 60;
         return hours + 'ч. ' + minutes + 'м.';
     }
 
-    // const moreBlockInfo = document.querySelector('.more-details-abt-movie') as HTMLElement
-    const addToMyListBTN = document.querySelector('.movie-card-full-btn-my-list') as HTMLElement
-    const toMyListBTN = document.querySelector('.movie-card-full-btn-in-my-list') as HTMLElement
+    const scrollToDetails = () => {
+        setIsVisible(true)
+        setTimeout(() => {
+            detailsRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }, 300)
+    };
+
+    const addToMyListBTN = document.querySelector('.movie-card-full-btn-my-list')! as HTMLElement
+    const toMyListBTN = document.querySelector('.movie-card-full-btn-in-my-list')! as HTMLElement
     let savedMoviesInLS = JSON.parse(localStorage.getItem('myList') || '[]')
     
     const movieInfo = {
@@ -80,7 +90,6 @@ export const MovieCardFull = (props: Props) => {
     toMyListBTN ? toMyListBTN.style.display = 'block' : console.log('no to-my-list btn')
    }
 
-
     return (
         <>
             <div className="movie-card-full" key={props.id} style={{backgroundImage: `url(${props.backdrop?.url})`}}>
@@ -100,15 +109,17 @@ export const MovieCardFull = (props: Props) => {
                    </div>
                    <div className="movie-card-full-description">
                     <p>{props.description}</p>
+                    <p>{props.isSeries && props.seasonsInfo ? `${props.seasonsInfo.length} сезонов` : ''}</p>
+                    <p>{props.status && props.status === 'completed' ? 'Заверешен' : 'Не завершен'}</p>
                    </div>
                    <div className="movie-card-full-btns">
-                    {props.persons && <button className="movie-card-full-btn-more" onClick={() => setIsVisible(true)}>Подробнее</button>}
+                    {props.persons && <button className="movie-card-full-btn-more" onClick={scrollToDetails}>Подробнее</button>}
                     {!isVisibleInMyList && <button className="movie-card-full-btn-my-list" onClick={addToMyList}>Буду смотреть</button>}
                     {isVisibleInMyList && <Link to="/movies-series/mylist" className="movie-card-full-btn-in-my-list">В моём списке</Link>}
                    </div>
                 </div>
             </div>
-            {isVisible && <div className="more-details-abt-movie">
+            {isVisible && <div className="more-details-abt-movie" ref={detailsRef}>
                 <div className="full-workers">
                     {props.persons && <h3>Над фильмом работали</h3>}
                     <div className="full-workers-container">
@@ -132,7 +143,8 @@ export const MovieCardFull = (props: Props) => {
                                     id={person.id} 
                                     photo={person.photo} 
                                     description1={person.name} 
-                                    description2={person.description} />
+                                    description2={person.description}
+                                    />
                             }      
                         })}
                     </div>
@@ -144,7 +156,8 @@ export const MovieCardFull = (props: Props) => {
                                 return  <MovieCardShort 
                                 id={similarMovie.id} 
                                 SRC={similarMovie.poster} 
-                                name={similarMovie.name} />
+                                name={similarMovie.name}
+                                />
                         })}
                     </div>
                 </div>

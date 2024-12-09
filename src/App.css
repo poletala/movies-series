@@ -125,9 +125,7 @@
     background-image: url('./assets/menu-icon.svg');
     background-repeat: no-repeat;
     background-size: cover;
-
-  }
-
+}
 @media (max-width: 768px) {
     .logo {
         width: 4rem;
@@ -167,7 +165,7 @@
     gap: 10px;
     position: absolute;
     top: 52px;
-    left: 68px;
+    left: 20px;
     background-color: var(--background-accent-color);
     padding: 13px;
     border-radius: 10px;
@@ -181,7 +179,7 @@
         position: relative;
     }
     .dropdown-menu {
-        left: 96px;
+        left: 28px;
         top: 26px;
         position: absolute;
     }
@@ -189,7 +187,7 @@
         font-size: 14px;
     }
     .search {
-        width: 112px;
+        width: 167px;
         left: 25px;
         margin-left: 108px;
         position: relative;
@@ -204,11 +202,14 @@
         font-size: 12px;
     }
     .header-menu-login {
-        margin-right: 23px;
+        right: 15px;
+        /* margin-right: 23px; */
         display: flex;
         align-items: center;
         gap: 9px;
-        margin-bottom: 3px;
+        /* margin-bottom: 3px; */
+        position: absolute;
+        bottom: -13px;
     }
     .load-btn {
         width: 40px;
@@ -216,10 +217,10 @@
     }
     .toggle-theme {
         position: absolute;
-        top: 54px;
+        top: 29px;
         right: 29px;
-        width: 19px;
-        height: 19px;
+        width: 23px;
+        height: 23px;
     }
     .header-menu {
         height: 11vh;
@@ -240,7 +241,14 @@
         height: 24px;
     }
     .search {
-        width: 133px;
+        width: 145px;
+        width: 167px;
+        left: 25px;
+        margin-left: 69px;
+        position: relative;
+        margin-top: 1px;
+        position: absolute;
+        top: 26px;
     }
     .header-menu {
         height: 10vh;
