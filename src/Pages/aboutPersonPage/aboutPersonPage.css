@@ -1,0 +1,140 @@
+.person-container {
+    display: flex;
+    background-color: var(--background-accent-color);
+    width: fit-content;
+    padding: 25px;
+    margin: 2% auto;
+    border-radius: 10px;
+}
+.person-poster {
+    width: 214px;
+    height: 340px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+}
+.person-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 20px;
+}
+.person-name {
+    font-size: 24px;
+    color: var(--accent-color);
+}
+.person-info span {
+    opacity: 0.5;
+    font-size: smaller;
+}
+.slider-facts {
+    width: 401px;
+}
+.movies-person {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 50px 10px 10px 10px;
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+}
+.movies-person-info {
+    position: absolute;
+    top: 0;
+    left: 30%;
+    display: flex;
+    gap: 20px;
+}
+.movies-person-info button {
+    padding: 5px 10px;
+    background-color: var(--background-accent-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.movies-person-info button:hover {
+    background-color: var(--accent-color);
+}
+@media (max-width: 1025px) {
+    .extra-movie-container {
+        width: 44%;
+    }
+    .extra-movie-name {
+        font-size: 15px;
+    }
+    .movies-person-info {
+        left: 27%;
+    }
+}
+@media (max-width: 769px) {
+    .movies-person-info {
+        left: 15%;
+    }
+    .extra-movie-name {
+        font-size: 13px;
+    }
+    .extra-movie-desc {
+        font-size: 10px;
+        text-align: right;
+        margin-top: 17px;
+        opacity: 0.5;
+    }
+}
+@media (max-width: 500px) {
+    .person-container {
+        flex-direction: column;
+    }
+    .person-poster {
+        width: 199px;
+        height: 317px;
+        margin: 0 auto;
+    }
+    .slider-facts {
+        width: 342px;
+    }
+    .person-fact {
+        width: 309px;
+    }
+    .person-name {
+        text-align: center;
+    }
+    .person-name-eng {
+        text-align: center;
+    }
+    .movies-person-info {
+        left: -5%;
+        gap: 14px;
+    }
+    .movies-person-info button {
+        padding: 5px 7px;
+    }
+    .person-info {
+        gap: 6px;
+        padding-left: 11px;
+    }
+    .extra-movie-container {
+        width: 92%;
+    }
+    .extra-movie-desc {
+        font-size: 9px;
+        text-align: right;
+    }
+}
+@media (max-width:380px) {
+    .person-fact {
+        width: 277px;
+    }
+    .slider-facts {
+        width: 306px;
+    }
+    .person-info {
+        gap: 6px;
+        padding-left: 0px;
+        font-size: 14px;
+    }
+    .movies-person-info button {
+        padding: 5px 7px;
+        font-size: 11px;
+    }
+}

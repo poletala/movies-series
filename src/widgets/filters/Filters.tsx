@@ -24,6 +24,7 @@ type Years = {
     label?: number
 }
 
+//стили для Селект
 const customStyles = {
     menu: (provided: any) => ({
         ...provided,
@@ -98,6 +99,7 @@ export const Filters  = (props: Props) => {
     const [sortByOption, setSortByOption] = useState<string>()
     const [isVisible, setIsVisible] = useState<boolean>(false)
 
+    //устаналиваем опцию Годы для Селект
     const startYear = 1924;
     const currentYear = new Date().getFullYear();
     const years = [];
@@ -111,6 +113,7 @@ export const Filters  = (props: Props) => {
 
     const sortBy: Options[] = [{value: 'rating.imdb', label: 'рейтингу'}, {value: 'year', label: 'году'}]
 
+    //Используем кастомный хук useFetchByFilters для поиса фильмов по заданным фильтрам
     const { data: filteredMoviesList, 
             isError, 
             error, 
@@ -128,6 +131,7 @@ export const Filters  = (props: Props) => {
                                             yearTo: yearsTo,
                                             sortBy: sortByOption})
 
+    //Функция поиска всех жанров и стран
     const getGenresAndCountries = async () => {
         const { data: genresList, 
                 error: errorGenresList, 
@@ -143,6 +147,7 @@ export const Filters  = (props: Props) => {
             }));
             setOptionsCountries(countries)
             console.log('COUNTRIES ', countriesList)
+            //сохраняем все возможные страны в локалсторэдж
             localStorage.setItem('country', JSON.stringify(countriesList))
           }
         if (genresList) {
@@ -152,12 +157,13 @@ export const Filters  = (props: Props) => {
                 label: genre.name,
             }));
             setOptionsGenres(genres)
+            //сохраняем все возможные жанры в локалсторэдж
             localStorage.setItem('genres', JSON.stringify(genresList))
         }
         if (errorGenresList) console.log(errorGenresList, messageGenresList)
         if (errorCountriesList) console.log(errorCountriesList, messageCountriesList)
     }
-    
+    //при ширине экрана менее 769 пикселей делаем фильтрацию невидимой (только иконка)
     const handleResize = () => {
         if (window.innerWidth < 769) {
           setIsVisible(false);
@@ -165,7 +171,7 @@ export const Filters  = (props: Props) => {
           setIsVisible(true);
         }
       };
-    
+    //при рендеринге определяем ширину экрана один раз
       useEffect(() => {
         handleResize(); 
         window.addEventListener('resize', handleResize); 
@@ -174,7 +180,8 @@ export const Filters  = (props: Props) => {
           window.removeEventListener('resize', handleResize); 
         };
       }, []);
-
+    //Проверяем наличие сохраненных жанров и стран в локалсторэдж
+    //если их нет, запускаем функцию загрузки
     useEffect(() => {
         const storageDataCountries: OptionsLS[] = JSON.parse(localStorage.getItem('country') || '[]')
         const storageDataGenres: OptionsLS[] = JSON.parse(localStorage.getItem('genres') || '[]')
@@ -214,51 +221,87 @@ export const Filters  = (props: Props) => {
                     options={optionsGenres}
                     styles={customStyles}
                     placeholder='Все жанры'
-                    onChange={(e) => setSelectedGenre(e?.label)}/>
+                    onChange={(e) => setSelectedGenre(e?.label)}
+                />
                 <label htmlFor="dropdown-countries">   Страна: </label>
                 <Select id="dropdown-countries" 
                     options={optionsCountries} 
                     styles={customStyles} 
                     placeholder='Все страны'
-                    onChange={(e) => setSelectedCountry(e?.label)}/>
+                    onChange={(e) => setSelectedCountry(e?.label)}
+                />
                 <label htmlFor="dropdown-years-from">   Интервал c </label>
                 <Select id="dropdown-years-from" 
                     options={yearsForFilters}
                     styles={customStylesForYear}
                     placeholder='-'
-                    onChange={(e) => setYearsFrom(e?.value)} />
+                    onChange={(e) => setYearsFrom(e?.value)} 
+                />
                 <label htmlFor="dropdown-years-to">   по</label>
                 <Select id="dropdown-years-to" 
                     options={yearsForFilters}
                     styles={customStylesForYear}
                     placeholder='-'
-                    onChange={(e) => setYearsTo(e?.value)} />
+                    onChange={(e) => setYearsTo(e?.value)} 
+                />
                 <label htmlFor="dropdown-sort">   Сортировать по</label>
                 <Select id="dropdown-sort" 
                     options={sortBy}
                     styles={customStylesForSort}
                     placeholder='рейтингу'
                     onChange={(e) => setSortByOption(e?.value)} 
-                    />
-            </div>}
-            {isVisible && <button className="filter-button" onClick={letsFetch}>Найти</button>}
-            {isVisible &&  <button className="filter-button" onClick={clearFilters}>Очистить</button>}
+                />
+            </div>
+            }
+            {isVisible && 
+                <button 
+                    className="filter-button" 
+                    onClick={letsFetch}>
+                        Найти
+                </button>
+            }
+            {isVisible &&  
+                <button 
+                    className="filter-button" 
+                    onClick={clearFilters}>
+                        Очистить
+                </button>
+            }
         </div>
         <div className="movies-list">
-        {filteredMoviesList && filteredMoviesList?.map((movie) => (
-           <MovieCardShort 
-               id={movie.id} 
-               SRC={movie.poster} 
-               name={movie.name} 
-               shortDescription={movie.shortDescription}
-               rating={movie.rating}
-               year={movie.year} />
-       ))} 
+        {filteredMoviesList && 
+            filteredMoviesList?.map((movie) => (
+                <MovieCardShort 
+                    id={movie.id} 
+                    SRC={movie.poster} 
+                    name={movie.name} 
+                    shortDescription={movie.shortDescription}
+                    rating={movie.rating}
+                    year={movie.year} 
+                />
+            ))
+        } 
        <div className="arrow-area">
             {isLoading && <Loader/>}
-            {isError && <div className="error-filtered-list">Ошибка получения данных.</div>}
-            {isNoData && !isLoading && <div className="error-filtered-list">Попробуйте задать другие фильтры для поиска.</div>}
-            {filteredMoviesList.length > 0 && <button className="arrow-down" disabled={isLoading || limitFetch >= 100 || filteredMoviesList?.length < 6} onClick={fetchMore}>+</button>}
+            {isError && 
+                <div className="error-filtered-list">
+                    Ошибка получения данных.
+                </div>
+            }
+            {isNoData && 
+                !isLoading && 
+                <div className="error-filtered-list">
+                    Попробуйте задать другие фильтры для поиска.
+                </div>
+            }
+            {filteredMoviesList.length > 0 && 
+                <button 
+                    className="arrow-down" 
+                    disabled={isLoading || limitFetch >= 100 || filteredMoviesList?.length < 6} 
+                    onClick={fetchMore}>
+                        +
+                </button>
+            }
         </div>
     </div>
    </>

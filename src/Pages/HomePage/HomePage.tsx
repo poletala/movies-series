@@ -17,6 +17,7 @@ export const HomePage = () => {
     const [isLoadingRandomMovie, setIsLoadingRandomMovie] = useState<boolean>(false)
     const [isRandomMovieError, setIsRandomMovieError] = useState<boolean>(true)
 
+    //Используем кастомный хук useFetchMore для загрузки информации о фильмах
     const {
         data: moviesList,
         isError: isErrorMoviesList,
@@ -28,6 +29,7 @@ export const HomePage = () => {
             } = useFetchMore({ query: queryForTopSeries, limitForQuery: 100 });
 
     let kp = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG');
+    //Функция получения рандомного фильма
     const getRandomMovie = async () => {
         setIsLoadingRandomMovie(true)
         const { data: randomMovie, error: randomMovieError } = await kp.movie.getRandom();
@@ -40,6 +42,7 @@ export const HomePage = () => {
         if (randomMovieError) {
             setIsLoadingRandomMovie(false)
             setIsRandomMovieError(true)
+            //при ошибке пробуем сменить апи ключ
             for (let i=0; i < API_KEYS.length; i++) {
                 kp = new KinopoiskDev(API_KEYS[i++]) 
               }
@@ -51,6 +54,7 @@ export const HomePage = () => {
         getRandomMovie()
     },[])
 
+    //Настройки для Слайдера
     function NextArrow(props: any) {
         const { onClick } = props;
         return (
@@ -121,7 +125,8 @@ export const HomePage = () => {
                             name={movie.name}
                             shortDescription={movie.shortDescription}
                             rating={movie.rating}
-                            year={movie.year} />
+                            year={movie.year} 
+                        />
                     ))}
                     </Slider>}
             </div>}
@@ -137,7 +142,8 @@ export const HomePage = () => {
                         name={series.name}
                         shortDescription={series.shortDescription}
                         rating={series.rating}
-                        year={series.year} />
+                        year={series.year} 
+                    />
                 ))}
                 </Slider>}
             </div>}
@@ -159,7 +165,8 @@ export const HomePage = () => {
                         movieLength={randomMovie?.movieLength}
                         enName={randomMovie?.enName}
                         onClick={getRandomMovie}
-                        isLoading={isLoadingRandomMovie}/>
+                        isLoading={isLoadingRandomMovie}
+                    />
                 </div>}
         </div>
         <ScrollToTop />

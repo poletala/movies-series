@@ -33,6 +33,7 @@ export const useFetchByFilters = ({query, limitForQuery, genre, country, isMovie
   const [shouldFetch, setShouldFetch] = useState<boolean>(false)
   const [isNoData, setIsNoData] = useState<boolean>(false)
  
+  //Функция устанавливает допфильтры для поиска фильмов
   useEffect(() => {
     
     let queryParams = {
@@ -47,9 +48,10 @@ export const useFetchByFilters = ({query, limitForQuery, genre, country, isMovie
         'sortField' : sortBy ? sortBy : 'rating.imdb'
     }
 
+    //Соединяем допфильтры выше и фильтры для поиска
     let queryToFetch = Object.assign(query, queryParams)
     console.log('QUERY TO FETCH ', queryToFetch)
-       
+    //Функция поиска фильмов по итоговой фильтрации
     const getMoviesByFilters = async () => {
         
         setIsLoading(true)
@@ -70,6 +72,7 @@ export const useFetchByFilters = ({query, limitForQuery, genre, country, isMovie
             console.log('FETCH ERROR BY FILTERS', error)
             setError(error)
             setShouldFetch(false)
+            //при ошибка пробуем сменить апи ключ
             for (let i=0; i < API_KEYS.length; i++) {
               kp = new KinopoiskDev(API_KEYS[i++]) 
             }

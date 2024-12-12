@@ -6,7 +6,7 @@ import { Filters } from '../../widgets/filters/Filters'
 import { ScrollToTop } from '../../components/ScrollToTop'
 
 export const SeriesPage = () => {
-
+    //Функция использования кастомного хука useFetchMore для поиска списка фильмов
     const {
         data: seriesList,
         error: errorSeriesList,
@@ -20,26 +20,38 @@ export const SeriesPage = () => {
         <> 
         <div className="movies-list-page">
             {seriesList.length > 0 &&
-            <Filters isMovie = {false}/>}
-            {seriesList.length > 0 &&  <h2 className="header-movies-list">ТОП сериалов <span>IMDb</span></h2>}
+                <Filters isMovie = {false}/>
+            }
+            {seriesList.length > 0 &&
+              <h2 className="header-movies-list">ТОП сериалов <span>IMDb</span></h2>
+            }
                 <div className="movies-list">
-                    {(seriesList && !isErrorSeriesList) && seriesList?.map((series) => (
-                        <MovieCardShort
-                            key={series.id}
-                            id={series.id}
-                            SRC={series.poster}
-                            name={series.name}
-                            shortDescription={series.shortDescription}
-                            rating={series.rating}
-                            year={series.year}
-                        />
-                    ))}
+                    {(seriesList && !isErrorSeriesList) && 
+                        seriesList?.map((series) => (
+                            <MovieCardShort
+                                key={series.id}
+                                id={series.id}
+                                SRC={series.poster}
+                                name={series.name}
+                                shortDescription={series.shortDescription}
+                                rating={series.rating}
+                                year={series.year}
+                            />
+                        ))}
                 </div>
                 <div className="arrow-area">
                     {isLoadingSeries && <Loader/>}
-                    {isErrorSeriesList && !isLoadingSeries && <div>Ошибка получения данных.</div>}
+                    {isErrorSeriesList && 
+                        !isLoadingSeries && 
+                        <div>Ошибка получения данных.</div>
+                    }
                     {seriesList.length > 0 &&
-                    <button className="arrow-down" disabled={isLoadingSeries || limitFetchSeries >= 100} onClick={fetchMoreSeries}>+</button>}
+                        <button className="arrow-down" 
+                                disabled={isLoadingSeries || limitFetchSeries >= 100} 
+                                onClick={fetchMoreSeries}>
+                                    +
+                        </button>
+                    }
                 </div>
         </div>
         <ScrollToTop />

@@ -9,6 +9,7 @@ import './movies-page.css'
 
 export const MoviesPage = () => {
 
+    //Использование кастомного хука useFetchMore для загрузки фильмов
     const {
         data: moviesList,
         error: errorMoviesList,
@@ -33,7 +34,8 @@ export const MoviesPage = () => {
                         name={movie.name}
                         shortDescription={movie.shortDescription}
                         rating={movie.rating}
-                        year={movie.year}/>
+                        year={movie.year}
+                    />
                 ))}
             </div>
             <div className="arrow-area">

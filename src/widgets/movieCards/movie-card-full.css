@@ -100,10 +100,10 @@
 .full-workers-container,
 .full-actors-container,
 .full-similar-films-container {
-    display: flex;
+    display: flex; 
     justify-content: space-around;
     gap: 20px;
-    overflow-x: scroll;
+     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     margin-top: 10px;
     padding: 0 15px 10px;

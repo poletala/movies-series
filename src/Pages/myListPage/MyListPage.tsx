@@ -14,21 +14,20 @@ type movieInfo = {
 }
 
 export const MyListPage = () => {
-
+    //Пробуем получить данные о сохраненных фильмах из локалсторэдж
     const savedList: Array<movieInfo> = JSON.parse(localStorage.getItem('myList') || '[]');
     const [moviesList, setMoviesList] = useState<Array<movieInfo>>(savedList)
     const navigate = useCustomNavigation()
 
-    console.log('MY LIST ', moviesList)
-
+    //Функция удаления фильма из моего списка
     function deleteFromMyList(id: number) {
 
         if (moviesList.length > 1) {
             const index = moviesList.findIndex((movie) => movie.id === id)
-            console.log('INDEX ', index, 'ID ', id)
+            // console.log('INDEX ', index, 'ID ', id)
             moviesList.splice(index, 1)
             setMoviesList(prevState => prevState.filter((prev) => prev.id !== id))
-            console.log('MY LIST spliced', moviesList)
+            // console.log('MY LIST spliced', moviesList)
             localStorage.setItem('MY NEW LIST ', JSON.stringify(moviesList))
             return moviesList
         }

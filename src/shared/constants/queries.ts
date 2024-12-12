@@ -14,6 +14,7 @@ export const queryForTopSeries: Filter<MovieFields> = {
     // limit: 1,
 }
 
+//фильтр для поиска топ фильмов
 export const queryForTopMovies: Filter<MovieFields> = {
     selectFields: ['id', 'name', 'rating', 'poster', 'year', 'top250', 'shortDescription'],
     year: '1950-2023',
@@ -28,7 +29,7 @@ export const queryForTopMovies: Filter<MovieFields> = {
     page: 1,
     // limit: 1,
 }
-
+//фильтр для поиска по отобранным критериям
 export  const queryForFilters: Filter<MovieFields> = {
     selectFields: ['id', 'name', 'rating', 'poster', 'year', 'shortDescription'],
     year: '1950-2023',

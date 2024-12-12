@@ -6,10 +6,11 @@ import {
     MovieDtoV13
   } from '@openmoviedb/kinopoiskdev_client';
 
-export const API_KEYS = ['V6DZV6J-B3XM7PZ-QWQ6F3S-YJ3DWWZ', 'VD325FM-SDSMGH5-QBE4PD1-2JNX3Y3', 'SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG', 'JZPD3MG-0JNMFYS-QXATV04-6KV52MX']
-// export let kp = new KinopoiskDev('V6DZV6J-B3XM7PZ-QWQ6F3S-YJ3DWWZ');
-// export let kp1 = new KinopoiskDev('VD325FM-SDSMGH5-QBE4PD1-2JNX3Y3');
-export let kp1 = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG')
+export const API_KEYS = ['V6DZV6J-B3XM7PZ-QWQ6F3S-YJ3DWWZ', 
+                        'VD325FM-SDSMGH5-QBE4PD1-2JNX3Y3', 
+                        'SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG', 
+                        'JZPD3MG-0JNMFYS-QXATV04-6KV52MX']
+
 export let kp = new KinopoiskDev('JZPD3MG-0JNMFYS-QXATV04-6KV52MX')
 
 
@@ -28,16 +29,16 @@ export const useFetchMore = ({query, limitForQuery}: FetchParams) => {
   const [limitFetch, setLimitFetch] = useState(limitForQuery)
 
   useEffect(() => {
- 
+    //устанавливаем условие количества фильмов, которые нужно загрузить
     let queryForLimit = {
         limit: limitFetch
     }
-   
+   //соединяем условие выше с фильтром поиска фильмов
     let queryToFetch = Object.assign(query, queryForLimit)
     console.log('QUERY TO FETCH ', queryToFetch)
        
     setIsLoading(true)
-
+    //Функция поиска фильмов по нашим фильтрам
     const getRelatedWithoutQueryBuilderMovies = async () => {
         
         const { data, error } = await kp.movie.getByFilters(queryToFetch)
@@ -54,6 +55,7 @@ export const useFetchMore = ({query, limitForQuery}: FetchParams) => {
             setIsError(true) 
             console.log('FETCH MORE ERROR ', error)
             setError(error)
+            //при ошибке пробуем сменить апи ключ
             for (let i=0; i < API_KEYS.length; i++) {
               kp = new KinopoiskDev(API_KEYS[i++]) 
             }

@@ -1,0 +1,29 @@
+.person-fact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 358px;
+    height: max-content;
+    background-color: var(--background-color);
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 21px;
+}
+.person-fact p {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+@media (max-width: 500px) {
+    .person-fact {
+        width: 309px;
+    }
+}
+@media (max-width:380px) {
+    .person-fact {
+        width: 277px;
+    }
+}

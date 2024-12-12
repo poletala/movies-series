@@ -7,9 +7,6 @@ import { API_KEYS } from '../../shared/hooks/useFetchMore'
 import { ScrollToTop } from '../../components/ScrollToTop'
 import './about-movie-page.css'
 
-
-
-
 type Params = {
     id: string | undefined;
 }
@@ -23,9 +20,11 @@ export const AboutMoviePage = () => {
 
     const findId = Number(id?.slice(1))
 
-    // let kp1 = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG')
-    let kp = new KinopoiskDev(API_KEYS[0])
+    console.log('ID ', id, 'FindId ', findId)
 
+    let kp = new KinopoiskDev(API_KEYS[0])
+ 
+    //Функция поиска фильма по айди
     useEffect(() => {
         const getMovieByID = async () => {
             setIsLoading(true)
@@ -39,6 +38,7 @@ export const AboutMoviePage = () => {
                 console.log(error, message);
                 setIsError(true)
                 setIsLoading(false)
+                //если ошибка, то пробуем изменить ключ апи
                 for (let i=0; i < API_KEYS.length; i++) {
                     kp = new KinopoiskDev(API_KEYS[i++]) 
                   }
@@ -46,6 +46,7 @@ export const AboutMoviePage = () => {
             }
         }
         id ? getMovieByID() : console.log('Movie not found')
+        
     },[findId])
 
     console.log('MOVIE BY ID:', findId, 'INFO ABOUT MOVIE BY ID ', movieInfo)

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-
 export const ScrollToTop = () => {
-    const [isVisible, setIsVisible] = useState(false);
+
+  const [isVisible, setIsVisible] = useState(false);
 
   const handleScroll = () => {
     if (window.scrollY > 300) {
@@ -30,18 +30,9 @@ export const ScrollToTop = () => {
     <div>
       {isVisible && (
         <button className="arrow-up"
-          onClick={scrollToTop}
-        //   style={{
-        //     position: 'fixed',
-        //     bottom: '20px',
-        //     right: '20px',
-        //     padding: '10px',
-        //     backgroundColor: '#007BFF',
-        //     color: 'white',
-        //     border: 'none',
-        //     borderRadius: '5px',
-          >&#9650;
-          </button>
+          onClick={scrollToTop}>
+            &#9650;
+        </button>
       )}
     </div>
   )
