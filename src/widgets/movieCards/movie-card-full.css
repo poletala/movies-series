@@ -250,6 +250,15 @@
     }
     .movie-card-full {
         min-height: 72vh;
+        position: relative;
+    }
+    .movie-card-full-poster {
+        position: absolute;
+        top: 4px;
+        left: 9px;
+    }
+    .movie-card-full-info {
+        width: 89%;
     }
 }
 @media (max-width: 376px) {
