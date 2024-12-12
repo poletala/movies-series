@@ -223,10 +223,61 @@
     .movie-card-full-info {
         width: 91%;
     }
-}
-@media (max-width: 769px) {
     .movie-card-full {
         min-height: 43vh;
+    }
+}
+@media (max-width: 500px) {
+    .movie-card-full-btn-more, 
+    .movie-card-full-btn-my-list, 
+    .movie-card-full-btn-in-my-list {
+        background-color: var(--background-color);
+        color: var(--white-text-color);
+        border: none;
+        padding: 8px 6px;
+        border-radius: 5px;
+        font-size: 9px;
+        font-weight: bold;
+        width: 30%;
+        margin: auto;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+    .movie-card-full-name {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: left;
+    }
+    .movie-card-full {
+        min-height: 72vh;
+    }
+}
+@media (max-width: 376px) {
+    .movie-card-full-btn-more, 
+    .movie-card-full-btn-my-list, 
+    .movie-card-full-btn-in-my-list {
+        background-color: var(--background-color);
+        color: var(--white-text-color);
+        border: none;
+        padding: 5px 6px;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: bold;
+        width: 41%;
+        margin: auto;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+    .movie-card-full-name {
+        font-size: 15px;
+        font-weight: bold;
+        text-align: left;
+    }
+    .movie-card-full-description {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: 15px;
     }
 }
 

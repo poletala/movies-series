@@ -30,7 +30,7 @@ export const MovieCardShort = (props: Props) => {
                         <div className="movie-card-short-year">{props.year}</div>
                 </div>
                 <h2 className="movie-card-short-name">{props.name}</h2>
-                <p className="movie-card-short-description" lang='ru'>{props.shortDescription}</p>
+            <p className="movie-card-short-description" lang='ru'>{props.shortDescription}</p>
         </div>
     )
 }
