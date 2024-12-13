@@ -216,7 +216,7 @@
 @media (max-width: 1026px) {
     .movie-card-full {
         background-size: contain;
-        min-height: 38vh;
+        min-height: 54vh;
     }
 }
 @media (max-width: 769px) {
@@ -224,7 +224,12 @@
         width: 91%;
     }
     .movie-card-full {
-        min-height: 43vh;
+        min-height: 74vh;
+    }
+    .movie-card-full-poster {
+        width: 430px;
+        height: 645px;
+        position: absolute;
     }
 }
 @media (max-width: 500px) {
@@ -249,8 +254,10 @@
         text-align: left;
     }
     .movie-card-full {
-        min-height: 72vh;
+        min-height: auto;
         position: relative;
+        align-items: center;
+        padding: 30% 5% 2% 5%;
     }
     .movie-card-full-poster {
         position: absolute;
@@ -286,7 +293,12 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        font-size: 15px;
+        font-size: 12px;
+    }
+    .full-workers h3, 
+    .full-actors h3, 
+    .full-similar-films h3 {
+        font-size: 22px;
     }
 }
 

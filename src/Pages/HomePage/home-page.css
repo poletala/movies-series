@@ -125,7 +125,7 @@
     }
     .header-menu-login {
         gap: 8px;
-        margin-bottom: 26px;
+        /* margin-bottom: 26px; */
     }
     .random-full {
         width: 370px;

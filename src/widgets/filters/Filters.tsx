@@ -92,7 +92,7 @@ export const Filters  = (props: Props) => {
 
     const [optionsGenres, setOptionsGenres] = useState<Options[]>([])
     const [optionsCountries, setOptionsCountries] = useState<Options[]>([])
-    const [selectedCountry, setSelectedCountry] = useState<string>()
+    const [selectedCountry, setSelectedCountry] = useState<string | undefined>(undefined)
     const [selectedGenre, setSelectedGenre] = useState<string>()
     const [yearsFrom, setYearsFrom] = useState<number>()
     const [yearsTo, setYearsTo] = useState<number>()

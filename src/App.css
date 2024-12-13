@@ -170,7 +170,7 @@
     padding: 13px;
     border-radius: 10px;
     box-shadow: 0 2px 10px var(--accent-color);
-    z-index: 1;
+    z-index: 100;
 }
 @media (max-width: 500px) {
     .logo {
@@ -209,7 +209,7 @@
         gap: 9px;
         /* margin-bottom: 3px; */
         position: absolute;
-        bottom: -21px;
+        bottom: 0;
     }
     .load-btn {
         width: 40px;
@@ -224,6 +224,13 @@
     }
     .header-menu {
         height: 11vh;
+    }
+    .movie-card-full-poster {
+        width: 234px;
+        height: 351px;
+        border-radius: 10px;
+        top: 4px;
+        left: 79px;
     }
 }
 @media (max-width: 400px) {

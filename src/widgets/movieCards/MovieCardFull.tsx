@@ -101,7 +101,8 @@ export const MovieCardFull = (props: Props) => {
         <>
             <div className="movie-card-full" 
                 key={props.id} 
-                style={{backgroundImage: `url(${props.backdrop?.url})`}}>
+                style={{backgroundImage: `url(${props.backdrop?.url})`, 
+                        padding: !props.backdrop?.url && innerWidth < 500 ? '83% 5% 2% 10%' : ''}}>
                     {!props.backdrop?.url && 
                         <div className="movie-card-full-poster" 
                             style={{backgroundImage: `url(${props.SRC?.url})`}}>
@@ -137,7 +138,7 @@ export const MovieCardFull = (props: Props) => {
                             props.seasonsInfo ? `Cезонов: ${props.seasonsInfo.length} ` : ''}
                         </p>
                         <p>
-                            {props.status && props.status === 'completed' ? 'Заверешен' : 'Не завершен'}
+                            {props.isSeries && props.status && props.status === 'completed' ? 'Заверешен' : ''}
                         </p>
                     </div>
                     <div className="movie-card-full-btns">
