@@ -66,7 +66,7 @@ export const AppLayout = () => {
             setInputSearchValue(e.target.value)
             localStorage.setItem('search', inputSearchValue) 
             // console.log('SEARCH MOVIE ', e.target.value)
-        }, 2000);
+        }, 500);
     } 
     //Поиск фильма при нажатии клавиши энтер на поле ввода
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -76,7 +76,7 @@ export const AppLayout = () => {
             }, 2000)
         }
     };
-    //При ширине экрана менее 500 пикселей показывать меню для телефонов
+    //При ширине экрана менее 500 пикселей показывать меню для телефоновn
     const handleResize = () => {
         if (window.innerWidth < 500) {
           setIsVisible(true);
