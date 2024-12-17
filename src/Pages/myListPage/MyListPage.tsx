@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { useCustomNavigation } from '../../shared/hooks/useCustomNavigation'
-import { ScrollToTop } from '../../components/ScrollToTop'
-import '../../widgets/movieCards/movie-card-short.css'
+import { ScrollToTop } from '../../components/scrollToTop/ScrollToTop'
+import '../../widgets/movieCards/movieCardShort/movie-card-short.css'
 import './my-list-page.css'
-
 
 type movieInfo = {
     id: number,
@@ -21,7 +20,6 @@ export const MyListPage = () => {
 
     //Функция удаления фильма из моего списка
     function deleteFromMyList(id: number) {
-
         if (moviesList.length > 1) {
             const index = moviesList.findIndex((movie) => movie.id === id)
             // console.log('INDEX ', index, 'ID ', id)
@@ -36,24 +34,27 @@ export const MyListPage = () => {
             localStorage.setItem('myList', '[]');
             return moviesList
         }
-        console.log('MY LIST AFTER DELETING ', moviesList)
+        // console.log('MY LIST AFTER DELETING ', moviesList)
     }
 
     return (
         <>
         <h1 className="my-list-header">Мой список фильмов</h1>
         <div className="my-list-of-movies">
-            {(moviesList.length === 0) && <div className="my-list-empty">Список пуст.</div>}
-            {moviesList.length > 0 && 
+            {(moviesList.length === 0) && (<div className="my-list-empty">Список пуст.</div>)}
+            {moviesList.length > 0 && (
                 moviesList?.map((movie) => (
                 <div className="movie-card-short movie-list" key={movie.id}>
                     <button className="delete-from-my-list" onClick={() => deleteFromMyList(movie.id)}></button>
-                    <div  className="movie-card-short-poster" onClick={() => navigate.to(`/movies-series/:${movie.id}`)} style={{backgroundImage: `url(${movie.SRC})`}}>
+                    <div  className="movie-card-short-poster" 
+                            onClick={() => navigate.to(`/movies-series/:${movie.id}`)} 
+                            style={{ backgroundImage: `url(${movie.SRC})` }}
+                    >
                         <div className="movie-card-short-rating" >{movie.rating}</div>
                         <div className="movie-card-short-year">{movie.year}</div>
                     </div>
             </div>
-            ))}
+            )))}
         </div>
         <ScrollToTop />
         </>

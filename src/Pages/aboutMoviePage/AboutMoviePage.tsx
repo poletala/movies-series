@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { MovieDtoV13, KinopoiskDev } from '@openmoviedb/kinopoiskdev_client'
-import { MovieCardFull } from '../../widgets/movieCards/MovieCardFull'
-import { Loader } from '../../components/Loader'
+import { MovieCardFull } from '../../widgets/movieCards/movieCardFull/MovieCardFull'
+import { Loader } from '../../components/loader/Loader'
 import { API_KEYS } from '../../shared/hooks/useFetchMore'
-import { ScrollToTop } from '../../components/ScrollToTop'
+import { ScrollToTop } from '../../components/scrollToTop/ScrollToTop'
 import './about-movie-page.css'
 
 type Params = {
@@ -12,16 +12,12 @@ type Params = {
 }
 
 export const AboutMoviePage = () => {
-
     const [movieInfo, setMovieInfo] = useState<MovieDtoV13>()
     const [isError, setIsError] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const { id } = useParams<Params>()
 
     const findId = Number(id?.slice(1))
-
-    console.log('ID ', id, 'FindId ', findId)
-
     let kp = new KinopoiskDev(API_KEYS[0])
  
     //Функция поиска фильма по айди
@@ -29,7 +25,7 @@ export const AboutMoviePage = () => {
         const getMovieByID = async () => {
             setIsLoading(true)
             const { data, error, message } = await kp.movie.getById(findId);
-            if(data) {
+            if (data) {
                 setMovieInfo(data)
                 setIsError(false)
                 setIsLoading(false)
@@ -41,20 +37,18 @@ export const AboutMoviePage = () => {
                 //если ошибка, то пробуем изменить ключ апи
                 for (let i=0; i < API_KEYS.length; i++) {
                     kp = new KinopoiskDev(API_KEYS[i++]) 
-                  }
+                }
                 return
             }
         }
         id ? getMovieByID() : console.log('Movie not found')
-        
     },[findId])
 
-    console.log('MOVIE BY ID:', findId, 'INFO ABOUT MOVIE BY ID ', movieInfo)
-
+    // console.log('MOVIE BY ID:', findId, 'INFO ABOUT MOVIE BY ID ', movieInfo)
     return (
         <>
         {isLoading && <div className="nodata"><Loader/></div>}
-        {!isLoading && !isError &&
+        {!isLoading && !isError && (
         <MovieCardFull
             id={movieInfo?.id}
             name={movieInfo?.name}
@@ -73,8 +67,8 @@ export const AboutMoviePage = () => {
             seasonsInfo={movieInfo?.seasonsInfo}
             status={movieInfo?.status}
             isSeries={movieInfo?.isSeries}
-        />}
-        {isError && <div className="nodata">Ошибка получения данных.</div>}
+        />)}
+        {isError && (<div className="nodata">Ошибка получения данных.</div>)}
         <ScrollToTop />
         </>
     )

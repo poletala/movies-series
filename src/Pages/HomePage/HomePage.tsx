@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react'
 import { KinopoiskDev, MovieDtoV13 } from '@openmoviedb/kinopoiskdev_client'
 import Slider from 'react-slick'
-import { MovieCardShort } from '../../widgets/movieCards/MovieCardShort'
+import { MovieCardShort } from '../../widgets/movieCards/movieCardShort/MovieCardShort'
 import { useFetchMore, API_KEYS } from '../../shared/hooks/useFetchMore'
 import { queryForTopMovies, queryForTopSeries } from '../../shared/constants/queries'
-import { Loader } from '../../components/Loader'
-import { MovieCardRandom } from '../../widgets/movieCards/MovieCardRandom'
-import { ScrollToTop } from '../../components/ScrollToTop'
+import { Loader } from '../../components/loader/Loader'
+import { MovieCardRandom } from '../../widgets/movieCards/movieCardRandom/MovieCardRandom'
+import { ScrollToTop } from '../../components/scrollToTop/ScrollToTop'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './home-page.css'
-
 
 export const HomePage = () => {
     const [randomMovie, setRandomMovie] = useState<MovieDtoV13>()
@@ -24,9 +23,9 @@ export const HomePage = () => {
         isLoading: isLoadingMovies,
         } = useFetchMore({ query: queryForTopMovies, limitForQuery: 100 });
 
-        const { 
-            data: seriesList
-            } = useFetchMore({ query: queryForTopSeries, limitForQuery: 100 });
+    const { 
+        data: seriesList
+        } = useFetchMore({ query: queryForTopSeries, limitForQuery: 100 });
 
     let kp = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG');
     //Функция получения рандомного фильма
@@ -37,7 +36,7 @@ export const HomePage = () => {
             setIsLoadingRandomMovie(false)
             setRandomMovie(randomMovie)
             setIsRandomMovieError(false)
-            console.log('RANDOM MOVIE ', randomMovie);
+            // console.log('RANDOM MOVIE ', randomMovie);
         }
         if (randomMovieError) {
             setIsLoadingRandomMovie(false)
@@ -46,7 +45,7 @@ export const HomePage = () => {
             for (let i=0; i < API_KEYS.length; i++) {
                 kp = new KinopoiskDev(API_KEYS[i++]) 
               }
-            console.log('RANDOM MOVIE ERROR ', randomMovieError);
+            // console.log('RANDOM MOVIE ERROR ', randomMovieError);
         }
     }
 
@@ -59,20 +58,24 @@ export const HomePage = () => {
         const { onClick } = props;
         return (
           <div
-            className='load-btn right-arrow movies-area'
+            className="load-btn right-arrow movies-area"
             onClick={onClick}
-            >&gt;</div>
+           >
+             &gt;
+           </div>
         )
-      }
+    }
     function PrevArrow(props: any) {
         const { onClick } = props;
         return (
           <div
-            className='load-btn arrow-left'
+            className="load-btn arrow-left"
             onClick={onClick}
-          >&#60;</div>
+          >
+            &#60;
+          </div>
         )
-      }
+    }
     const settings = {
         dots: false,
         arrows: true,
@@ -110,44 +113,50 @@ export const HomePage = () => {
 
     return (
         <>
-        <div style={{paddingBottom: '20px'}}>
-            {isErrorMoviesList && !isLoadingMovies && <div className="error-home">Ошибка получения данных.</div>}
-            {isLoadingMovies && <div className="loader-home-page"><Loader /></div>}
-            {moviesList.length > 0 && 
+        <div style={{ paddingBottom: '20px' }}>
+            {isErrorMoviesList && !isLoadingMovies && (<div className="error-home">Ошибка получения данных.</div>)}
+            {isLoadingMovies && (<div className="loader-home-page"><Loader /></div>)}
+            {moviesList.length > 0 && (
             <div  className="testscroller-movies">
                 <h2 className="header-main-list">ТОП фильмов <span>IMDb</span></h2>
-                    {moviesList.length > 0 && <Slider {...settings}>
-                    {moviesList.map((movie) => (
-                        <MovieCardShort
-                            key={movie.id}
-                            id={movie.id}
-                            SRC={movie.poster}
-                            name={movie.name}
-                            shortDescription={movie.shortDescription}
-                            rating={movie.rating}
-                            year={movie.year} 
-                        />
-                    ))}
-                    </Slider>}
-            </div>}
-            {seriesList.length > 0 &&
+                    {moviesList.length > 0 && (
+                        <Slider {...settings}>
+                            {moviesList.map((movie) => (
+                                <MovieCardShort
+                                    key={movie.id}
+                                    id={movie.id}
+                                    SRC={movie.poster}
+                                    name={movie.name}
+                                    shortDescription={movie.shortDescription}
+                                    rating={movie.rating}
+                                    year={movie.year} 
+                                />
+                            ))}
+                        </Slider>
+                    )}
+            </div>
+            )}
+            {seriesList.length > 0 && (
             <div className="testscroller">
                 <h2 className="header-main-list">ТОП сериалов <span>IMDb</span></h2>
-                {seriesList.length > 0 && <Slider {...settings}>
-                {seriesList.map((series) => (
-                    <MovieCardShort
-                        key={series.id}
-                        id={series.id}
-                        SRC={series.poster}
-                        name={series.name}
-                        shortDescription={series.shortDescription}
-                        rating={series.rating}
-                        year={series.year} 
-                    />
-                ))}
-                </Slider>}
-            </div>}
-            {!isRandomMovieError && 
+                {seriesList.length > 0 && (
+                    <Slider {...settings}>
+                        {seriesList.map((series) => (
+                            <MovieCardShort
+                            key={series.id}
+                            id={series.id}
+                            SRC={series.poster}
+                            name={series.name}
+                            shortDescription={series.shortDescription}
+                            rating={series.rating}
+                            year={series.year} 
+                            />
+                        ))}
+                    </Slider>
+                )}
+            </div>
+            )}
+            {!isRandomMovieError && (
                 <div className="random-movie">
                     <h2 className="header-main-list">Случайный фильм</h2>
                     <MovieCardRandom
@@ -167,7 +176,8 @@ export const HomePage = () => {
                         onClick={getRandomMovie}
                         isLoading={isLoadingRandomMovie}
                     />
-                </div>}
+                </div>
+                )}
         </div>
         <ScrollToTop />
         </>

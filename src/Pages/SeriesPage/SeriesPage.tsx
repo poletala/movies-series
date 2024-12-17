@@ -1,9 +1,9 @@
 import { useFetchMore } from '../../shared/hooks/useFetchMore'
 import { queryForTopSeries } from '../../shared/constants/queries'
-import { Loader } from '../../components/Loader'
-import { MovieCardShort } from '../../widgets/movieCards/MovieCardShort'
+import { Loader } from '../../components/loader/Loader'
+import { MovieCardShort } from '../../widgets/movieCards/movieCardShort/MovieCardShort'
 import { Filters } from '../../widgets/filters/Filters'
-import { ScrollToTop } from '../../components/ScrollToTop'
+import { ScrollToTop } from '../../components/scrollToTop/ScrollToTop'
 
 export const SeriesPage = () => {
     //Функция использования кастомного хука useFetchMore для поиска списка фильмов
@@ -13,20 +13,20 @@ export const SeriesPage = () => {
         isError: isErrorSeriesList,
         isLoading: isLoadingSeries,
         fetchMore: fetchMoreSeries,
-        limitFetch: limitFetchSeries} = useFetchMore({ query: queryForTopSeries, limitForQuery: 10 });
+        limitFetch: limitFetchSeries } = useFetchMore({ query: queryForTopSeries, limitForQuery: 10 });
     console.log('Error series page ', errorSeriesList)
 
     return (
         <> 
         <div className="movies-list-page">
-            {seriesList.length > 0 &&
+            {seriesList.length > 0 && (
                 <Filters isMovie = {false}/>
-            }
-            {seriesList.length > 0 &&
+            )}
+            {seriesList.length > 0 && (
               <h2 className="header-movies-list">ТОП сериалов <span>IMDb</span></h2>
-            }
+            )}
                 <div className="movies-list">
-                    {(seriesList && !isErrorSeriesList) && 
+                    {(seriesList && !isErrorSeriesList) && (
                         seriesList?.map((series) => (
                             <MovieCardShort
                                 key={series.id}
@@ -37,21 +37,22 @@ export const SeriesPage = () => {
                                 rating={series.rating}
                                 year={series.year}
                             />
-                        ))}
+                        )))}
                 </div>
                 <div className="arrow-area">
-                    {isLoadingSeries && <Loader/>}
+                    {isLoadingSeries && (<Loader/>)}
                     {isErrorSeriesList && 
-                        !isLoadingSeries && 
+                        !isLoadingSeries && (
                         <div>Ошибка получения данных.</div>
-                    }
-                    {seriesList.length > 0 &&
+                    )}
+                    {seriesList.length > 0 && (
                         <button className="arrow-down" 
                                 disabled={isLoadingSeries || limitFetchSeries >= 100} 
-                                onClick={fetchMoreSeries}>
-                                    +
+                                onClick={fetchMoreSeries}
+                        >
+                            +
                         </button>
-                    }
+                    )}
                 </div>
         </div>
         <ScrollToTop />

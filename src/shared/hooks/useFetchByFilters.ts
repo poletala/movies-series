@@ -7,10 +7,7 @@ import {
   } from '@openmoviedb/kinopoiskdev_client'
 import { API_KEYS } from './useFetchMore';
 
-// let kp = new KinopoiskDev('V6DZV6J-B3XM7PZ-QWQ6F3S-YJ3DWWZ');
-// let kp1 = new KinopoiskDev('VD325FM-SDSMGH5-QBE4PD1-2JNX3Y3');
 let kp = new KinopoiskDev('SGBP95Q-G8M4CFN-NZ1P9F5-N3P5YWG');
-// let kp1 = new KinopoiskDev('JZPD3MG-0JNMFYS-QXATV04-6KV52MX');
 
 type FetchParams = {
   query: Filter<MovieFields>;
@@ -23,7 +20,7 @@ type FetchParams = {
   sortBy?: string; 
 }
 
-export const useFetchByFilters = ({query, limitForQuery, genre, country, isMovie, yearFrom, yearTo, sortBy }: FetchParams) => {
+export const useFetchByFilters = ({ query, limitForQuery, genre, country, isMovie, yearFrom, yearTo, sortBy }: FetchParams) => {
 
   const [data, setData] = useState<MovieDtoV13[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -35,6 +32,7 @@ export const useFetchByFilters = ({query, limitForQuery, genre, country, isMovie
  
   //Функция устанавливает допфильтры для поиска фильмов
   useEffect(() => {
+    const currentYear = new Date().getFullYear()
     
     let queryParams = {
         limit: limitFetch,
@@ -43,29 +41,28 @@ export const useFetchByFilters = ({query, limitForQuery, genre, country, isMovie
         'isSeries': isMovie ?  false : true,
         'type' : isMovie ? 'movie' : 'tv-series',
         'year' : (yearFrom && yearTo) ? `${yearFrom}-${yearTo}` : 
-                    (yearFrom && !yearTo) ? `${yearFrom}-2023` : 
-                    (!yearFrom && yearTo) ? `1923-${yearTo}` : '1923-2023',
+                    (yearFrom && !yearTo) ? `${yearFrom}-${currentYear}` : 
+                    (!yearFrom && yearTo) ? `1923-${yearTo}` : `1923-${currentYear}`,
         'sortField' : sortBy ? sortBy : 'rating.imdb'
     }
 
     //Соединяем допфильтры выше и фильтры для поиска
     let queryToFetch = Object.assign(query, queryParams)
-    console.log('QUERY TO FETCH ', queryToFetch)
+    // console.log('QUERY TO FETCH ', queryToFetch)
     //Функция поиска фильмов по итоговой фильтрации
     const getMoviesByFilters = async () => {
-        
         setIsLoading(true)
         const { data, error } = await kp.movie.getByFilters(queryToFetch);
 
-        if(data) {
+        if (data) {
             setData(data.docs)
             setIsLoading(false)
             setIsError(false)
             setShouldFetch(false)
             setIsNoData(false)
-            console.log('FETCHED DATA BY FILTERS ', data.docs)
+            // console.log('FETCHED DATA BY FILTERS ', data.docs)
         }
-        if(error) {
+        if (error) {
             setIsLoading(false)
             setIsError(true)
             setIsNoData(false)
@@ -78,7 +75,7 @@ export const useFetchByFilters = ({query, limitForQuery, genre, country, isMovie
             }
             return
         }
-        if(!data?.docs.length && !error) {
+        if (!data?.docs.length && !error) {
             setIsNoData(true)
             setIsLoading(false)
             setShouldFetch(false)
@@ -88,7 +85,6 @@ export const useFetchByFilters = ({query, limitForQuery, genre, country, isMovie
 
  }, [limitFetch, shouldFetch])
 
-    
   const fetchMore = () => {
     setShouldFetch(true)
     setLimitFetch(prev => prev + 5)

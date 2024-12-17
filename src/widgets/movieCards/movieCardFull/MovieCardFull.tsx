@@ -1,10 +1,9 @@
 import { Rating, ItemName, ShortImage, PersonInMovie, LinkedMovie, SeasonInfo } from '@openmoviedb/kinopoiskdev_client'
 import { Link } from 'react-router-dom'
 import { useRef, useState } from 'react'
-import { ImageAndDescriptionCard } from '../../components/ImageAndDescriptionCard'
-import { MovieCardShort } from './MovieCardShort'
+import { ImageAndDescriptionCard } from '../../../components/imageAndDescriptionCard/ImageAndDescriptionCard'
+import { MovieCardShort } from '../movieCardShort/MovieCardShort'
 import './movie-card-full.css'
-
 
 type Props = {
     id?: number;
@@ -45,7 +44,7 @@ export const MovieCardFull = (props: Props) => {
             detailsRef.current?.scrollIntoView({ behavior: 'smooth' });
         }, 300)
     };
-
+    
     const addToMyListBTN = document.querySelector('.movie-card-full-btn-my-list')! as HTMLElement
     const toMyListBTN = document.querySelector('.movie-card-full-btn-in-my-list')! as HTMLElement
     let savedMoviesInLS = JSON.parse(localStorage.getItem('myList') || '[]')
@@ -60,29 +59,29 @@ export const MovieCardFull = (props: Props) => {
     //Изменение отображения кнопок в зависимости от наличия фильма в Моем листе
     if (savedMoviesInLS.length > 0) {
         for(let i = 0; i < savedMoviesInLS.length; i++) {
-            if(savedMoviesInLS[i].id === movieInfo.id) {
+            if (savedMoviesInLS[i].id === movieInfo.id) {
                 addToMyListBTN ? addToMyListBTN.style.display = 'none' : console.log('no add-to-my-list btn')
                 // addToMyListBTN.style.display = 'none'
                 toMyListBTN ? toMyListBTN.style.display = 'block' : console.log('no to-my-list btn')
             }
         }
     }
-    console.log('Movie Info ', movieInfo)
+    // console.log('Movie Info ', movieInfo)
 
     //Функция добавления фильма с Мой лист
    function addToMyList() {
     setIsVisibleInMyList(true)
-    console.log('Saved movies', savedMoviesInLS)
+    // console.log('Saved movies', savedMoviesInLS)
     if (savedMoviesInLS.length > 0) {
         for(let i = 0; i < savedMoviesInLS.length; i++) {
-            if(savedMoviesInLS[i].id === movieInfo.id) {
+            if (savedMoviesInLS[i].id === movieInfo.id) {
                 savedMoviesInLS.splice(i, 1)
                 break
             }
         }
         savedMoviesInLS.push(movieInfo)
     }
-    if(savedMoviesInLS.length === 0) {
+    if (savedMoviesInLS.length === 0) {
         savedMoviesInLS = [movieInfo]
     }
 
@@ -101,13 +100,15 @@ export const MovieCardFull = (props: Props) => {
         <>
             <div className="movie-card-full" 
                 key={props.id} 
-                style={{backgroundImage: `url(${props.backdrop?.url})`, 
-                        padding: !props.backdrop?.url && innerWidth < 500 ? '83% 5% 2% 10%' : ''}}>
-                    {!props.backdrop?.url && 
-                        <div className="movie-card-full-poster" 
-                            style={{backgroundImage: `url(${props.SRC?.url})`}}>
-                        </div>
-                    }
+                style={{ backgroundImage: `url(${props.backdrop?.url})`, 
+                        padding: !props.backdrop?.url && innerWidth < 500 ? '83% 5% 2% 10%' : '' }}
+            >
+                {!props.backdrop?.url && (
+                    <div className="movie-card-full-poster" 
+                        style={{ backgroundImage: `url(${props.SRC?.url})` }}
+                    >
+                    </div>
+                )}
                     <div className="movie-card-full-info">
                         <div className="movie-card-full-name">
                             <h2>{props.name}</h2>
@@ -125,108 +126,114 @@ export const MovieCardFull = (props: Props) => {
                         <span className="movie-card-full-duration">
                             {props.movieLength ? getTimeFromMins(props.movieLength) : ''}
                         </span>
-                        {props.ageRating && 
+                        {props.ageRating && (
                             <span className="movie-card-full-age">
                                 {props.ageRating}
                                     +
                             </span>
-                        }
+                        )}
                     </div>
                     <div className="movie-card-full-description">
                         <p>{props.description}</p>
-                        <p>{props.isSeries && 
-                            props.seasonsInfo ? `Cезонов: ${props.seasonsInfo.length} ` : ''}
+                        <p>{props.isSeries && (
+                            props.seasonsInfo ? `Cезонов: ${props.seasonsInfo.length} ` : ''
+                            )}
                         </p>
                         <p>
                             {props.isSeries && props.status && props.status === 'completed' ? 'Заверешен' : ''}
                         </p>
                     </div>
                     <div className="movie-card-full-btns">
-                        {props.persons && 
+                        {props.persons && (
                             <button 
                                 className="movie-card-full-btn-more" 
-                                onClick={scrollToDetails}>
-                                    Подробнее
+                                onClick={scrollToDetails}
+                            >
+                                Подробнее
                             </button>
-                        }
-                        {!isVisibleInMyList && 
+                        )}
+                        {!isVisibleInMyList && (
                             <button 
                                 className="movie-card-full-btn-my-list" 
-                                onClick={addToMyList}>
-                                    Буду смотреть
+                                onClick={addToMyList}
+                            >
+                                Буду смотреть
                             </button>
-                        }
-                        {isVisibleInMyList && 
+                        )}
+                        {isVisibleInMyList && (
                             <Link to="/movies-series/mylist" 
-                            className="movie-card-full-btn-in-my-list">
+                            className="movie-card-full-btn-in-my-list"
+                            >
                                 В моём списке
                             </Link>
-                        }
+                        )}
                     </div>
                 </div>
             </div>
-            {isVisible && 
+            {isVisible && (
                 <div 
                     className="more-details-abt-movie" 
-                    ref={detailsRef}>
-                        <div className="full-workers">
-                            {props.persons && 
-                                <h3>Над фильмом работали</h3>
-                            }
-                            <div className="full-workers-container">
-                                {props.persons && 
-                                    combinedPersons?.map((person) => {
-                                    if(person.enProfession === 'director' || 
-                                        person.enProfession === 'writer' || 
-                                        person.enProfession ===  'producer') {
-                                            return ( 
-                                                <ImageAndDescriptionCard 
-                                                    id={person.id} 
-                                                    photo={person.photo} 
-                                                    description1={person.name} 
-                                                    description2={person.profession.slice(0, -1)} 
-                                                />
-                                            )
-                                        }  
-                                    })
-                                }
-                            </div>
+                    ref={detailsRef}
+                >
+                    <div className="full-workers">
+                        {props.persons && (
+                            <h3>Над фильмом работали</h3>
+                        )}
+                        <div className="full-workers-container">
+                            {props.persons && (
+                                combinedPersons?.map((person) => {
+                                if (person.enProfession === 'director' || 
+                                    person.enProfession === 'writer' || 
+                                    person.enProfession ===  'producer') {
+                                        return ( 
+                                            <ImageAndDescriptionCard 
+                                                // key={person.id}
+                                                id={person.id} 
+                                                photo={person.photo} 
+                                                description1={person.name} 
+                                                description2={person.profession.slice(0, -1)} 
+                                            />
+                                        )
+                                    }  
+                                })
+                            )}
                         </div>
+                    </div>
                     <div className="full-actors">
-                        {props.persons &&  
+                        {props.persons && (
                             <h3>В главных ролях</h3>
-                        }
+                        )}
                         <div className="full-actors-container">
-                            {props.persons && 
+                            {props.persons && (
                                 props.persons?.map((person) => {
-                                    if(person.enProfession === 'actor') {
+                                    if (person.enProfession === 'actor') {
                                         return <ImageAndDescriptionCard 
                                             id={person.id} 
                                             photo={person.photo} 
                                             description1={person.name} 
                                             description2={person.description}
                                         />
-                                    }      
-                            })}
+                                    }
+                            }))}
                         </div>
                     </div>
                     <div className="full-similar-films">
-                        {props.similarMovies  && 
+                        {props.similarMovies  && (
                             <h3>Похожие фильмы</h3>
-                        }
+                        )}
                         <div className="full-similar-films-container">
-                            {props.similarMovies && 
+                            {props.similarMovies && (
                                 props.similarMovies?.map((similarMovie) => {
                                     return  <MovieCardShort 
                                         id={similarMovie.id} 
                                         SRC={similarMovie.poster} 
                                         name={similarMovie.name}
                                     />
-                            })}
+                            }))}
                         </div>
                     </div>
-            </div>
-            }
+                </div>
+            )}
         </>
     )
 }

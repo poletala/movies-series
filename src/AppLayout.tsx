@@ -2,17 +2,18 @@ import { Outlet, Link, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { userNameSelector } from './entity/user/selectors'
+import { useCustomNavigation } from './shared/hooks/useCustomNavigation'
 import { useAppSelector } from './shared/hooks/useAppSelector'
 import { userActions } from './entity/user/slice'
 import { darkThemeIcon, lightThemeIcon } from './assets'
 import './App.css'
 
-
-
 export const AppLayout = () => {
     const [theme, setTheme] = useState('dark');
     const [isVisible, setIsVisible] = useState<boolean>(false)
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [inputSearchValue, setInputSearchValue] = useState<string>('')
+    const navigate = useCustomNavigation()
 
     const userName = useAppSelector(userNameSelector)
     const dispatch = useDispatch()
@@ -62,11 +63,19 @@ export const AppLayout = () => {
     //Сохранение введенного фильма для поиска в локалсторэдж
     const searchMovieLS: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setTimeout(() => {
-            localStorage.setItem('search', e.target.value) 
-            console.log('SEARCH MOVIE ', e.target.value)
-        }, 3000);
-        
+            setInputSearchValue(e.target.value)
+            localStorage.setItem('search', inputSearchValue) 
+            // console.log('SEARCH MOVIE ', e.target.value)
+        }, 2000);
     } 
+    //Поиск фильма при нажатии клавиши энтер на поле ввода
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            setTimeout(() => {
+                navigate.to(`/movies-series/search`)
+            }, 2000)
+        }
+    };
     //При ширине экрана менее 500 пикселей показывать меню для телефонов
     const handleResize = () => {
         if (window.innerWidth < 500) {
@@ -79,7 +88,6 @@ export const AppLayout = () => {
     useEffect(() => {
         handleResize(); 
         window.addEventListener('resize', handleResize); 
-    
         return () => {
           window.removeEventListener('resize', handleResize); 
         };
@@ -96,60 +104,70 @@ export const AppLayout = () => {
         <>
             <header className="header-menu">
                 <div className="header-menu-elements">
-                    {!isVisible && 
+                    {!isVisible && (
                         <div className="logo-container">
                             <Link to="/movies-series/" 
                                 style={applyActiveStyle(isHomePage)} 
-                                className="logo">
+                                className="logo"
+                            >
                             </Link>
                         </div>
-                    }
-                    {!isVisible && 
+                    )}
+                    {!isVisible && (
                         <Link to="/movies-series/movies" 
                             style={applyActiveStyle(isMoviesPage)} 
-                            className="element-nav">
-                                Фильмы
+                            className="element-nav"
+                        >
+                            Фильмы
                         </Link>
-                    }
-                    {!isVisible && 
+                    )}
+                    {!isVisible && (
                         <Link to="/movies-series/series" 
                             style={applyActiveStyle(isSeriesPage)} 
-                            className="element-nav">
-                                Сериалы
+                            className="element-nav"
+                        >
+                            Сериалы
                         </Link>
-                    }
-                    {isVisible && 
+                    )}
+                    {isVisible && (
                         <button 
                             className="dropdown-menu" 
-                            onClick={openMenu}>
+                            onClick={openMenu}
+                        >
                         </button>
-                    }
-                    {isOpen && 
+                    )}
+                    {isOpen && (
                         <div className="dropdown-menu-open">
                             <Link to="/movies-series/" 
-                                className="element-nav">
-                                    Главная
+                                className="element-nav"
+                            >
+                                Главная
                             </Link>
                             <Link to="/movies-series/movies" 
-                                className="element-nav">
-                                    Фильмы
+                                className="element-nav"
+                            >
+                                Фильмы
                             </Link>
                             <Link to="/movies-series/series" 
-                                className="element-nav">
-                                    Сериалы
+                                className="element-nav"
+                            >
+                                Сериалы
                             </Link>
                         </div>
-                    }
+                    )}
                     <div className="search">
                         <input 
                             type="text" 
                             placeholder="Поиск"  
                             maxLength={25} 
                             onChange={searchMovieLS} 
-                            className="search-movie-field"/> 
+                            onKeyDown={handleKeyDown}
+                            className="search-movie-field"
+                        /> 
                         <Link to="/movies-series/search" 
                             style={applyActiveStyle(isSearchPage)} 
-                            className="search-icon element-nav">
+                            className="search-icon element-nav"
+                        >
                         </Link>
                     </div> 
                 </div>
@@ -157,7 +175,8 @@ export const AppLayout = () => {
                     {userName ? (
                         <>
                             <Link to="/movies-series/mylist" 
-                                className="element-nav my-list-nav">
+                                className="element-nav my-list-nav"
+                            >
                             </Link>
                             <div className="element-nav user-name" style={{fontSize: '15px'}}>
                                 {userName}
@@ -167,8 +186,9 @@ export const AppLayout = () => {
                     )
                     :   <Link to="/movies-series/signup"  
                             style={applyActiveStyle(isSignupPage)} 
-                            className="element-nav login-title">
-                                Войти
+                            className="element-nav login-title"
+                        >
+                            Войти
                         </Link>}
                 </div>
                 <button className="toggle-theme element-nav" onClick={toggleTheme}></button>

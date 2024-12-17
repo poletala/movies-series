@@ -1,0 +1,52 @@
+.random-poster {
+    width: 271px;
+    height: 401px;
+    position: absolute;
+}
+.random-full {
+    position: relative;
+    min-height: 405px;
+    width: 476px;
+}
+.random-info {
+    width: 296px;
+    max-height: 229px;
+    position: absolute;
+    bottom: 45px;
+    right: 16px;
+}
+.random-name h2{
+    font-size: 25px;
+    overflow: hidden;
+    display: -webkit-box;
+     -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+.random-desc p {
+    font-size: 12px;
+    overflow: hidden;
+    display: -webkit-box;
+     -webkit-line-clamp: 7; 
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+.random-det span {
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.random-movie-btn {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 52px;
+    right: 131px;
+}
+.random-loader {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: 52px;
+    right: 131px;
+}

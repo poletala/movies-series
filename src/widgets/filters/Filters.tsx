@@ -3,10 +3,9 @@ import Select from 'react-select'
 import { useFetchByFilters } from '../../shared/hooks/useFetchByFilters'
 import { kp } from '../../shared/hooks/useFetchMore'
 import { queryForFilters } from '../../shared/constants/queries'
-import { MovieCardShort } from '../movieCards/MovieCardShort'
-import { Loader } from '../../components/Loader'
+import { MovieCardShort } from '../movieCards/movieCardShort/MovieCardShort'
+import { Loader } from '../../components/loader/Loader'
 import './filters.css'
-
 
 type Props = {
     isMovie: boolean
@@ -23,7 +22,8 @@ type Years = {
     value?: number,
     label?: number
 }
-
+const isTablet = window.innerWidth <= 1025
+const isPhone = window.innerWidth <= 426
 //стили для Селект
 const customStyles = {
     menu: (provided: any) => ({
@@ -33,14 +33,14 @@ const customStyles = {
     control: (provided: any) => ({
       ...provided,
       backgroundColor: 'lightgray',
-      padding: window.innerWidth <= 1025 ? '0px 2px' : '0px 10px',
+      padding: isTablet ? '0px 2px' : '0px 10px',
       border: '1px solid white',
       borderRadius: '14px',
-      minHeight: window.innerWidth <= 1025 ? '30px' :'38px',
-      maxHeight: window.innerWidth <= 1025 ? '32px' :'38px',
-      minWidth: window.innerWidth <= 426 ? '250px' :  window.innerWidth <= 1025 ? '150px' : '210px',
-      maxWidth: window.innerWidth <= 426 ? '250px' : window.innerWidth <= 1025 ? '150px' : '210px',
-      fontSize: window.innerWidth <= 1025 ? '14px' : '16px',
+      minHeight: isTablet ? '30px' :'38px',
+      maxHeight: isTablet ? '32px' :'38px',
+      minWidth: isPhone ? '250px' :  isTablet ? '150px' : '210px',
+      maxWidth: isPhone ? '250px' : isTablet ? '150px' : '210px',
+      fontSize: isTablet ? '14px' : '16px',
       paddingTop: 0
     }),
     option: (provided:any, state:any) => ({
@@ -53,14 +53,14 @@ const customStylesForYear = {
     control: (provided: any) => ({
       ...provided,
       backgroundColor: 'lightgray',
-      padding: window.innerWidth <= 1025 ? '0px 1px' : '0px 5px',
+      padding: isTablet ? '0px 1px' : '0px 5px',
       border: '1px solid white',
       borderRadius: '14px',
-      minHeight: window.innerWidth <= 1025 ? '30px' :'38px',
-      maxHeight: window.innerWidth <= 1025 ? '32px' :'38px',
-      minWidth: window.innerWidth <= 1025 ? '90px' : '120px',
-      maxWidth:  window.innerWidth <= 1025 ? '90px' : '120px',
-      fontSize: window.innerWidth <= 1025 ? '12px' : '16px',
+      minHeight: isTablet ? '30px' :'38px',
+      maxHeight: isTablet ? '32px' :'38px',
+      minWidth: isTablet ? '90px' : '120px',
+      maxWidth: isTablet ? '90px' : '120px',
+      fontSize: isTablet ? '12px' : '16px',
     }),
     option: (provided:any, state:any) => ({
       ...provided,
@@ -72,14 +72,14 @@ const customStylesForSort = {
     control: (provided: any) => ({
       ...provided,
       backgroundColor: 'lightgray',
-      padding: window.innerWidth <= 1025 ? '0px 1px' : '0px 5px',
+      padding: isTablet ? '0px 1px' : '0px 5px',
       border: '1px solid white',
       borderRadius: '14px',
-      minHeight: window.innerWidth <= 1025 ? '30px' :'38px',
-      maxHeight: window.innerWidth <= 1025 ? '32px' :'38px',
-      minWidth: window.innerWidth <= 1025 ? '120px' : '130px',
-      maxWidth:  window.innerWidth <= 1025 ? '120px' : '130px',
-      fontSize: window.innerWidth <= 1025 ? '12px' : '16px',
+      minHeight: isTablet ? '30px' :'38px',
+      maxHeight: isTablet ? '32px' :'38px',
+      minWidth: isTablet ? '120px' : '130px',
+      maxWidth: isTablet ? '120px' : '130px',
+      fontSize: isTablet ? '12px' : '16px',
     }),
     option: (provided:any, state:any) => ({
       ...provided,
@@ -89,7 +89,6 @@ const customStylesForSort = {
 }
 
 export const Filters  = (props: Props) => {
-
     const [optionsGenres, setOptionsGenres] = useState<Options[]>([])
     const [optionsCountries, setOptionsCountries] = useState<Options[]>([])
     const [selectedCountry, setSelectedCountry] = useState<string | undefined>(undefined)
@@ -122,14 +121,14 @@ export const Filters  = (props: Props) => {
             fetchMore, 
             limitFetch,
             letsFetch,
-            clearFilters } = useFetchByFilters({query: queryForFilters, 
+            clearFilters } = useFetchByFilters({ query: queryForFilters, 
                                             limitForQuery: 10, 
                                             genre: selectedGenre, 
                                             country: selectedCountry, 
                                             isMovie: props.isMovie,
                                             yearFrom: yearsFrom, 
                                             yearTo: yearsTo,
-                                            sortBy: sortByOption})
+                                            sortBy: sortByOption })
 
     //Функция поиска всех жанров и стран
     const getGenresAndCountries = async () => {
@@ -146,7 +145,7 @@ export const Filters  = (props: Props) => {
                 label: country.name,
             }));
             setOptionsCountries(countries)
-            console.log('COUNTRIES ', countriesList)
+            // console.log('COUNTRIES ', countriesList)
             //сохраняем все возможные страны в локалсторэдж
             localStorage.setItem('country', JSON.stringify(countriesList))
           }
@@ -175,7 +174,6 @@ export const Filters  = (props: Props) => {
       useEffect(() => {
         handleResize(); 
         window.addEventListener('resize', handleResize); 
-    
         return () => {
           window.removeEventListener('resize', handleResize); 
         };
@@ -206,70 +204,85 @@ export const Filters  = (props: Props) => {
         }
 
     }, [])
+    //Удаление фильтров для поиска 
+    const clearFiltersInputs = () => {
+        clearFilters()
+        setSelectedCountry(undefined)
+        setSelectedGenre('')
+        setYearsFrom(undefined)
+        setYearsTo(undefined)
+        setSortByOption('')
+        setIsVisible(false);
+        setTimeout(() => {
+            setIsVisible(true);
+        }, 300);
+    }
 
-    console.log('SELECTED FILTERS ', selectedCountry, selectedGenre, yearsFrom, yearsTo, sortByOption)
+    // console.log('SELECTED FILTERS ', selectedCountry, selectedGenre, yearsFrom, yearsTo, sortByOption)
     if (isError) console.error('FILTERED DATA FETCH ERROR', error)
   
     return (
         <>
-        <div className="filter-container" >
+        <div className="filter-container">
             <button className="filter-icon" onClick={() => setIsVisible(prev => !prev)}></button>
-            {isVisible && 
-            <div className="dropdown" style={{zIndex: '10'}}>
+            {isVisible && (
+            <div className="dropdown" style={{ zIndex: '10' }}>
                 <label htmlFor="dropdown-genres">Жанр: </label>
                 <Select id="dropdown-genres"
                     options={optionsGenres}
                     styles={customStyles}
-                    placeholder='Все жанры'
+                    placeholder="Все жанры"
                     onChange={(e) => setSelectedGenre(e?.label)}
                 />
                 <label htmlFor="dropdown-countries">   Страна: </label>
                 <Select id="dropdown-countries" 
                     options={optionsCountries} 
                     styles={customStyles} 
-                    placeholder='Все страны'
+                    placeholder="Все страны"
                     onChange={(e) => setSelectedCountry(e?.label)}
                 />
                 <label htmlFor="dropdown-years-from">   Интервал c </label>
                 <Select id="dropdown-years-from" 
                     options={yearsForFilters}
                     styles={customStylesForYear}
-                    placeholder='-'
+                    placeholder="-"
                     onChange={(e) => setYearsFrom(e?.value)} 
                 />
                 <label htmlFor="dropdown-years-to">   по</label>
                 <Select id="dropdown-years-to" 
                     options={yearsForFilters}
                     styles={customStylesForYear}
-                    placeholder='-'
+                    placeholder="-"
                     onChange={(e) => setYearsTo(e?.value)} 
                 />
                 <label htmlFor="dropdown-sort">   Сортировать по</label>
                 <Select id="dropdown-sort" 
                     options={sortBy}
                     styles={customStylesForSort}
-                    placeholder='рейтингу'
+                    placeholder="рейтингу"
                     onChange={(e) => setSortByOption(e?.value)} 
                 />
             </div>
-            }
-            {isVisible && 
+            )}
+            {isVisible && (
                 <button 
                     className="filter-button" 
-                    onClick={letsFetch}>
-                        Найти
+                    onClick={letsFetch}
+                >
+                    Найти
                 </button>
-            }
-            {isVisible &&  
+            )}
+            {isVisible && (
                 <button 
                     className="filter-button" 
-                    onClick={clearFilters}>
-                        Очистить
+                    onClick={clearFiltersInputs}
+                >
+                    Очистить
                 </button>
-            }
+            )}
         </div>
         <div className="movies-list">
-        {filteredMoviesList && 
+        {filteredMoviesList && (
             filteredMoviesList?.map((movie) => (
                 <MovieCardShort 
                     id={movie.id} 
@@ -280,28 +293,29 @@ export const Filters  = (props: Props) => {
                     year={movie.year} 
                 />
             ))
-        } 
+        )} 
        <div className="arrow-area">
-            {isLoading && <Loader/>}
-            {isError && 
+            {isLoading && (<Loader/>)}
+            {isError && (
                 <div className="error-filtered-list">
                     Ошибка получения данных.
                 </div>
-            }
+            )}
             {isNoData && 
-                !isLoading && 
+                !isLoading && (
                 <div className="error-filtered-list">
                     Попробуйте задать другие фильтры для поиска.
                 </div>
-            }
-            {filteredMoviesList.length > 0 && 
+            )}
+            {filteredMoviesList.length > 0 && (
                 <button 
                     className="arrow-down" 
                     disabled={isLoading || limitFetch >= 100 || filteredMoviesList?.length < 6} 
-                    onClick={fetchMore}>
-                        +
+                    onClick={fetchMore}
+                >
+                    +
                 </button>
-            }
+            )}
         </div>
     </div>
    </>

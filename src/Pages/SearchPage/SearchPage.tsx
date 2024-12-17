@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import { KinopoiskDev, MeiliMovieEntity, MovieQueryBuilder } from '@openmoviedb/kinopoiskdev_client'
 import { useCustomNavigation } from '../../shared/hooks/useCustomNavigation'
-import { ScrollToTop } from '../../components/ScrollToTop'
-import { Loader } from '../../components/Loader'
-import './search-page.css'
+import { ScrollToTop } from '../../components/scrollToTop/ScrollToTop'
+import { Loader } from '../../components/loader/Loader'
 import { API_KEYS } from '../../shared/hooks/useFetchMore'
-
+import './search-page.css'
 
 type Results = {
   id: number,
@@ -19,12 +18,13 @@ type Results = {
 export let kp = new KinopoiskDev('V6DZV6J-B3XM7PZ-QWQ6F3S-YJ3DWWZ');
 
 export const SearchPage = () => {
-
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean>(false)
   const [errorSearch, setErrorSearch] = useState<string | null>(null)
   const [searchResult, setSearchResult] = useState<MeiliMovieEntity[]>([])
   const [limitFetch, setLimitFetch] = useState<number>(10)
+  
+  const navigate = useCustomNavigation()
    
   if (isError) console.log(errorSearch)
 
@@ -46,7 +46,7 @@ export const SearchPage = () => {
         setSearchResult(searchData)
         setIsLoading(false)
         setIsError(false)
-        console.log('SEARCH DATA ', searchData) 
+        // console.log('SEARCH DATA ', searchData) 
       }
       if (error) {
         setIsLoading(false)
@@ -62,33 +62,31 @@ export const SearchPage = () => {
     }
       movieName ? searchMoreMovies(limitFetch) : console.log('Empty search field')
   },[limitFetch, movieName])
-
-  const navigate = useCustomNavigation()
  
     return (
       <>
       <div className="search-results">
         {movieName && 
-          searchResult.length === 0 && 
+          !searchResult.length && 
           !isError && 
-          !isLoading && 
+          !isLoading && (
           <div>Попробуйте еще раз.</div>
-        }
+        )}
         {isError && 
-          !isLoading && 
-            <div>
-              Ошибка получения данных
-            </div>
-        }
-        {!movieName && !isError && <div>Пусто.</div>}
+          !isLoading && (
+            <div>Ошибка получения данных</div>
+        )}
+        {!movieName && !isError && (<div>Пусто.</div>)}
         {movieName && 
-          searchResult.length > 0 && 
+          searchResult.length > 0 && (
           searchResult.map((result: Results) => (
             <div className="movie-card-short" 
               key={result.id} 
-              onClick={() => navigate.to(`/movies-series/:${result.id}`)}>
+              onClick={() => navigate.to(`/movies-series/:${result.id}`)}
+            >
               <div  className="movie-card-short-poster" 
-                style={{backgroundImage: `url(${result.poster})`}}>
+                style={{ backgroundImage: `url(${result.poster})` }}
+              >
                   <div className="movie-card-short-rating">
                     {result.rating?.toFixed(1)}
                   </div>
@@ -100,21 +98,21 @@ export const SearchPage = () => {
                 {result.name}
               </h2>
           </div>
-        
-      ))}
+      )))}
       </div>
-        {isLoading && 
+        {isLoading && (
           <div className="loader-home-page"><Loader /></div>
-        }
+        )}
         {movieName && 
-          searchResult.length > 0 && 
+          searchResult.length > 0 && (
           <div className="arrow-area">
             <button className="arrow-down" 
-              onClick={() => setLimitFetch((prev) => prev + 5)}>
-                +
+              onClick={() => setLimitFetch((prev) => prev + 5)}
+            >
+              +
             </button>
           </div>
-        }
+        )}
       <ScrollToTop />
       </>
     )

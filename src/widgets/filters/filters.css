@@ -60,6 +60,7 @@
   padding: 8px 15px;
   border-radius: 14px;
   font-size: 15px; 
+  margin-top: 24px;
 }
 .filter-button:hover {
   background-color: var(--accent-color);
@@ -84,9 +85,8 @@
     height: 24px;
     top: 31px;
     left: -116px;
+  }
 }
-}
-
 @media (max-width: 1026px) {
   .filter-container {
       /* margin: 2% auto; */
@@ -96,6 +96,7 @@
   .filter-button {
     padding: 7px 8px;
     width: 200px;
+    margin-top: 0;
   }
   .dropdown {
       gap: 10px;

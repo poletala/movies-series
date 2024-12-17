@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 export const ScrollToTop = () => {
-
   const [isVisible, setIsVisible] = useState(false);
 
   const handleScroll = () => {
