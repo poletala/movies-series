@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { KinopoiskDev, MovieDtoV13 } from '@openmoviedb/kinopoiskdev_client'
 import Slider from 'react-slick'
+
 import { MovieCardShort } from '../../widgets/movieCards/movieCardShort/MovieCardShort'
-import { useFetchMore, API_KEYS } from '../../shared/hooks/useFetchMore'
-import { queryForTopMovies, queryForTopSeries } from '../../shared/constants/queries'
 import { Loader } from '../../components/loader/Loader'
 import { MovieCardRandom } from '../../widgets/movieCards/movieCardRandom/MovieCardRandom'
 import { ScrollToTop } from '../../components/scrollToTop/ScrollToTop'
+import { useFetchMore, API_KEYS } from '../../shared/hooks/useFetchMore'
+import { queryForTopMovies, queryForTopSeries } from '../../shared/constants/queries'
+
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import './home-page.css'

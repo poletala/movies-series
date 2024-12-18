@@ -1,27 +1,19 @@
 import { useEffect, useState } from 'react'
 import Select from 'react-select'
+
+import { MovieCardShort } from '../movieCards/movieCardShort/MovieCardShort'
+import { Loader } from '../../components/loader/Loader'
 import { useFetchByFilters } from '../../shared/hooks/useFetchByFilters'
 import { kp } from '../../shared/hooks/useFetchMore'
 import { queryForFilters } from '../../shared/constants/queries'
-import { MovieCardShort } from '../movieCards/movieCardShort/MovieCardShort'
-import { Loader } from '../../components/loader/Loader'
+import { Options, OptionsLS, Years } from '../../shared/types/types'
+
 import './filters.css'
 
 type Props = {
     isMovie: boolean
 }
-type Options = {
-    value?: string,
-    label?: string
-}
-type OptionsLS = {
-    name?: string,
-    slug?: string
-}
-type Years = {
-    value?: number,
-    label?: number
-}
+
 const isTablet = window.innerWidth <= 1025
 const isPhone = window.innerWidth <= 426
 //стили для Селект

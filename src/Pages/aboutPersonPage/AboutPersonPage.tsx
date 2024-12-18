@@ -2,16 +2,15 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { KinopoiskDev, Person } from "@openmoviedb/kinopoiskdev_client";
 import Slider from "react-slick";
+
 import { ScrollToTop } from "../../components/scrollToTop/ScrollToTop";
 import { Loader } from "../../components/loader/Loader";
 import { MovieCardExtraShort } from "../../widgets/movieCards/movieCardExtraShort/MovieCardExtraShort";
 import { FactsAboutPerson } from "../../components/factsAboutPerson/FactsAboutPerson";
 import { API_KEYS } from "../../shared/hooks/useFetchMore";
-import './aboutPersonPage.css'
+import { Params } from '../../shared/types/types'
 
-type Params = {
-    id: string | undefined;
-}
+import './aboutPersonPage.css'
 
 export const AboutPersonPage = () => {
     const { id } = useParams<Params>();
@@ -72,7 +71,8 @@ export const AboutPersonPage = () => {
         }
         return url;
     }
-
+    //Профессии человека в списке фильмов
+    const professionsUnique = personInfo?.movies ? Array.from(new Set(personInfo?.movies.map(movie => movie.enProfession))) : [];
     // console.log('PERSON BY ID:', id, 'INFO ABOUT PERSON BY ID ', personInfo)
     return (
         <>
@@ -126,6 +126,7 @@ export const AboutPersonPage = () => {
                 {personInfo?.movies && (
                 <div className="movies-person">
                     <div className="movies-person-info">
+                        {professionsUnique.includes('actor') && (
                         <button type="button" 
                                 className="person-as-actor" 
                                 onClick={() => setProfession('actor')}
@@ -135,6 +136,8 @@ export const AboutPersonPage = () => {
                         >
                             Актер
                         </button>
+                        )}
+                        {professionsUnique.includes('director') && (
                         <button type="button" 
                                 className="person-as-director" 
                                 onClick={() => setProfession('director')}
@@ -144,6 +147,8 @@ export const AboutPersonPage = () => {
                         >
                             Режиссер
                         </button>
+                        )}
+                        {professionsUnique.includes('producer') && (
                         <button type="button" 
                                 className="person-as-producer" 
                                 onClick={() => setProfession('producer')}
@@ -153,6 +158,8 @@ export const AboutPersonPage = () => {
                         >
                             Продюсер
                         </button>
+                        )}
+                        {professionsUnique.includes('writer') && (
                         <button type="button" 
                                 className="person-as-writer" 
                                 onClick={() => setProfession('writer')}
@@ -162,6 +169,8 @@ export const AboutPersonPage = () => {
                         >
                             Сценарист
                         </button>
+                        )}
+                        {professionsUnique.includes('cameo') && (
                         <button type="button" 
                                 className="person-as-cameo" 
                                 onClick={() => setProfession('cameo')}
@@ -171,6 +180,7 @@ export const AboutPersonPage = () => {
                         >
                             Камео
                         </button>
+                        )}
                     </div>
                     {personInfo?.movies && (
                         personInfo?.movies.sort((a, b) => (b.rating  ?? 0) - (a.rating  ?? 0)).map((movie) => (

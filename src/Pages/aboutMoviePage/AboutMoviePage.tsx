@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { MovieDtoV13, KinopoiskDev } from '@openmoviedb/kinopoiskdev_client'
+
+import { API_KEYS } from '../../shared/hooks/useFetchMore'
 import { MovieCardFull } from '../../widgets/movieCards/movieCardFull/MovieCardFull'
 import { Loader } from '../../components/loader/Loader'
-import { API_KEYS } from '../../shared/hooks/useFetchMore'
 import { ScrollToTop } from '../../components/scrollToTop/ScrollToTop'
-import './about-movie-page.css'
+import { Params } from '../../shared/types/types'
 
-type Params = {
-    id: string | undefined;
-}
+import './about-movie-page.css'
 
 export const AboutMoviePage = () => {
     const [movieInfo, setMovieInfo] = useState<MovieDtoV13>()

@@ -1,16 +1,11 @@
 import { useState } from 'react'
+
 import { useCustomNavigation } from '../../shared/hooks/useCustomNavigation'
 import { ScrollToTop } from '../../components/scrollToTop/ScrollToTop'
+import { movieInfo } from '../../shared/types/types'
+
 import '../../widgets/movieCards/movieCardShort/movie-card-short.css'
 import './my-list-page.css'
-
-type movieInfo = {
-    id: number,
-    name: string,
-    rating: number,
-    year: number,
-    SRC: string
-}
 
 export const MyListPage = () => {
     //Пробуем получить данные о сохраненных фильмах из локалсторэдж

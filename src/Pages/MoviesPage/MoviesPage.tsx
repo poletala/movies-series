@@ -1,9 +1,10 @@
 import { MovieCardShort } from '../../widgets/movieCards/movieCardShort/MovieCardShort'
-import { useFetchMore } from '../../shared/hooks/useFetchMore'
-import { queryForTopMovies } from '../../shared/constants/queries'
 import { Loader } from '../../components/loader/Loader'
 import { Filters } from '../../widgets/filters/Filters'
 import { ScrollToTop } from '../../components/scrollToTop/ScrollToTop'
+import { useFetchMore } from '../../shared/hooks/useFetchMore'
+import { queryForTopMovies } from '../../shared/constants/queries'
+
 import './movies-page.css'
 
 export const MoviesPage = () => {

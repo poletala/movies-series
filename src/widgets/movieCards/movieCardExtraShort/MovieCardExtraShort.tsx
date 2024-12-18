@@ -1,14 +1,7 @@
 import { useCustomNavigation } from "../../../shared/hooks/useCustomNavigation";
-import './movie-card-extra-short.css'
+import { PersonInMovies } from "../../../shared/types/types";
 
-type PersonInMovies = {
-    alternativeName?: string;
-    description?: string;
-    enProfession?: string;
-    id?: number;
-    name?: string;
-    rating?: number;
-}
+import './movie-card-extra-short.css'
 
 export const MovieCardExtraShort = (props: PersonInMovies) => {
     const navigate = useCustomNavigation()

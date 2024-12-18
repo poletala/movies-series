@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import {
     KinopoiskDev,
-    Filter,
-    MovieFields,
     MovieDtoV13
   } from '@openmoviedb/kinopoiskdev_client';
+
+import { FetchParams } from '../types/types';
 
 export const API_KEYS = ['V6DZV6J-B3XM7PZ-QWQ6F3S-YJ3DWWZ', 
                         'VD325FM-SDSMGH5-QBE4PD1-2JNX3Y3', 
@@ -14,10 +14,7 @@ export const API_KEYS = ['V6DZV6J-B3XM7PZ-QWQ6F3S-YJ3DWWZ',
 
 export let kp = new KinopoiskDev('JZPD3MG-0JNMFYS-QXATV04-6KV52MX')
 
-type FetchParams = {
-  query: Filter<MovieFields>;
-  limitForQuery: number;
-}
+
 
 export const useFetchMore = ({ query, limitForQuery }: FetchParams) => {
   const [data, setData] = useState<MovieDtoV13[]>([])

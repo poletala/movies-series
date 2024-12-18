@@ -1,9 +1,10 @@
-import { useFetchMore } from '../../shared/hooks/useFetchMore'
-import { queryForTopSeries } from '../../shared/constants/queries'
 import { Loader } from '../../components/loader/Loader'
 import { MovieCardShort } from '../../widgets/movieCards/movieCardShort/MovieCardShort'
 import { Filters } from '../../widgets/filters/Filters'
 import { ScrollToTop } from '../../components/scrollToTop/ScrollToTop'
+import { useFetchMore } from '../../shared/hooks/useFetchMore'
+import { queryForTopSeries } from '../../shared/constants/queries'
+
 
 export const SeriesPage = () => {
     //Функция использования кастомного хука useFetchMore для поиска списка фильмов

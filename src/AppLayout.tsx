@@ -1,11 +1,13 @@
 import { Outlet, Link, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
+
 import { userNameSelector } from './entity/user/selectors'
 import { useCustomNavigation } from './shared/hooks/useCustomNavigation'
 import { useAppSelector } from './shared/hooks/useAppSelector'
 import { userActions } from './entity/user/slice'
 import { darkThemeIcon, lightThemeIcon } from './assets'
+
 import './App.css'
 
 export const AppLayout = () => {

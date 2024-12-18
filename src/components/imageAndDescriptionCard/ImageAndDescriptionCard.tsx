@@ -1,13 +1,7 @@
 import { useCustomNavigation } from '../../shared/hooks/useCustomNavigation'
-import './index.css'
+import { CardImageAndDescription } from '../../shared/types/types'
 
-type CardImageAndDescription = {
-    id?: number,
-    photo?: string,
-    description1?: string,
-    description2?: string,
-    onClick?: () => void
-}
+import './index.css'
 
 export const ImageAndDescriptionCard = (props: CardImageAndDescription) => {
     const navigate = useCustomNavigation()

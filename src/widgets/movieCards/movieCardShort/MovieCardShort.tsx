@@ -1,5 +1,7 @@
 import { ShortImage, Rating } from '@openmoviedb/kinopoiskdev_client'
+
 import { useCustomNavigation } from '../../../shared/hooks/useCustomNavigation'
+
 import './movie-card-short.css'
 
 type Props = {

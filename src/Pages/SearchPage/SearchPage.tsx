@@ -1,19 +1,13 @@
 import { useEffect, useState } from 'react'
 import { KinopoiskDev, MeiliMovieEntity, MovieQueryBuilder } from '@openmoviedb/kinopoiskdev_client'
-import { useCustomNavigation } from '../../shared/hooks/useCustomNavigation'
+
 import { ScrollToTop } from '../../components/scrollToTop/ScrollToTop'
 import { Loader } from '../../components/loader/Loader'
 import { API_KEYS } from '../../shared/hooks/useFetchMore'
-import './search-page.css'
+import { useCustomNavigation } from '../../shared/hooks/useCustomNavigation'
+import { Results } from '../../shared/types/types'
 
-type Results = {
-  id: number,
-  poster: string,
-  name: string,
-  shortDescription: string | undefined,
-  rating: number | undefined,
-  year: number | undefined,
-}
+import './search-page.css'
 
 export let kp = new KinopoiskDev('V6DZV6J-B3XM7PZ-QWQ6F3S-YJ3DWWZ');
 

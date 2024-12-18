@@ -1,6 +1,8 @@
 import { Rating, ItemName, ShortImage } from '@openmoviedb/kinopoiskdev_client'
+
 import { useCustomNavigation } from '../../../shared/hooks/useCustomNavigation'
 import { Loader } from '../../../components/loader/Loader'
+
 import './movie-card-random.css'
 import '../movieCardFull/movie-card-full.css'
 
@@ -65,23 +67,23 @@ export const MovieCardRandom = (props: Props) => {
                         <span className="movie-card-full-year">{props.year}</span>
                         {props.genres && (
                             <span className="movie-card-full-genre">
-                                {String(props.genres?.map(({name}) => (name)))}
+                                {String(props.genres?.map(genre => genre.name).join(', '))}
                             </span>
                         )}
                         {props.countries && (
                             <span className="movie-card-full-country">
-                                {String(props.countries?.map(({name}) => (name)))}
+                                {String(props.countries?.map(country => country.name).join(', '))}
                             </span>
                         )}
                         <span className="movie-card-full-duration">
                             {props.movieLength ? getTimeFromMins(props.movieLength) : ''}
                         </span>
-                        {props.ageRating  && (
+                        {props.ageRating && (
                             <span className="movie-card-full-age">{props.ageRating}+</span>
                         )}
                     </div>
                     <div 
-                        className="movie-card-full-description random-desc"  
+                        className="movie-card-full-description random-desc"
                         onClick={() => navigate.to(`/movies-series/:${props.id}`)}
                     >
                         {!props.shortDescription && (

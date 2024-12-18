@@ -1,11 +1,13 @@
 import { Rating, ItemName, ShortImage, PersonInMovie, LinkedMovie, SeasonInfo } from '@openmoviedb/kinopoiskdev_client'
 import { Link } from 'react-router-dom'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
 import { ImageAndDescriptionCard } from '../../../components/imageAndDescriptionCard/ImageAndDescriptionCard'
 import { MovieCardShort } from '../movieCardShort/MovieCardShort'
+
 import './movie-card-full.css'
 
-type Props = {
+type MovieCardFull = {
     id?: number;
     name?: string;
     enName?: string;
@@ -26,7 +28,7 @@ type Props = {
     isSeries?: boolean;
 }
 
-export const MovieCardFull = (props: Props) => {
+export const MovieCardFull = (props: MovieCardFull) => {
     const detailsRef = useRef<null | HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState<boolean>(false)
     const [isVisibleInMyList, setIsVisibleInMyList] = useState<boolean>(false)
@@ -57,18 +59,21 @@ export const MovieCardFull = (props: Props) => {
         SRC: props.SRC?.url
     }
     //Изменение отображения кнопок в зависимости от наличия фильма в Моем листе
-    if (savedMoviesInLS.length > 0) {
-        for(let i = 0; i < savedMoviesInLS.length; i++) {
-            if (savedMoviesInLS[i].id === movieInfo.id) {
-                addToMyListBTN ? addToMyListBTN.style.display = 'none' : console.log('no add-to-my-list btn')
-                // addToMyListBTN.style.display = 'none'
-                toMyListBTN ? toMyListBTN.style.display = 'block' : console.log('no to-my-list btn')
+    useEffect(() => {
+        if (savedMoviesInLS.length > 0) {
+            for(let i = 0; i < savedMoviesInLS.length; i++) {
+                if (savedMoviesInLS[i].id === movieInfo.id) {
+                    setIsVisibleInMyList(true)
+                    // addToMyListBTN ? addToMyListBTN.style.display = 'none' : console.log('no add-to-my-list btn')
+                    // addToMyListBTN.style.display = 'none'
+                    // toMyListBTN ? toMyListBTN.style.display = 'block' : console.log('no to-my-list btn')
+                }
             }
         }
-    }
+    },[])
     // console.log('Movie Info ', movieInfo)
 
-    //Функция добавления фильма с Мой лист
+    //Функция добавления фильма в Мой лист
    function addToMyList() {
     setIsVisibleInMyList(true)
     // console.log('Saved movies', savedMoviesInLS)
@@ -217,21 +222,20 @@ export const MovieCardFull = (props: Props) => {
                             }))}
                         </div>
                     </div>
+                    {props.similarMovies  && (
                     <div className="full-similar-films">
-                        {props.similarMovies  && (
-                            <h3>Похожие фильмы</h3>
-                        )}
+                        <h3>Похожие фильмы</h3>
                         <div className="full-similar-films-container">
-                            {props.similarMovies && (
-                                props.similarMovies?.map((similarMovie) => {
+                                {props.similarMovies?.map((similarMovie) => {
                                     return  <MovieCardShort 
                                         id={similarMovie.id} 
                                         SRC={similarMovie.poster} 
                                         name={similarMovie.name}
                                     />
-                            }))}
+                                })}
                         </div>
                     </div>
+                    )}
                 </div>
             )}
         </>
